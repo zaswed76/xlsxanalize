@@ -1,12 +1,12 @@
 from os.path import join, dirname
 
-import program
+import analizator
 from setuptools import setup, find_packages
 
 setup(
-        name="program",
+        name="analizator",
         # в __init__ пакета
-        version=program.__version__,
+        version=analizator.__version__,
         packages=find_packages(
                 exclude=["*.exemple", "*.exemple.*", "exemple.*",
                          "exemple"]),

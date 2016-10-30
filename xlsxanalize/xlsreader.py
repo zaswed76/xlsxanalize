@@ -28,8 +28,9 @@ class Xls:
             d = {}
 
             # d.clear()
-            wb2 = load_workbook(i)
-            sheet = wb2[wb2.get_sheet_names()[0]]
+            wb = load_workbook(i)
+            sheet = wb.active
+            print(sheet, 111)
             d['name'] = sheet['C1'].value
             print(d['name'])
             d['date'] = sheet['C3'].value
