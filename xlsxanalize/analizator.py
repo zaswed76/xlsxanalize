@@ -9,12 +9,12 @@ EXT = '.xlsx'
 
 
 class File:
-    def __init__(self, root='', name='', ext='', pat=''):
+    def __init__(self, pat, root='', name='', ext=''):
         self._date_parse_flag = True
-        # self.ext = ext
+        self.ext = ext
         self.name = name
         self.root = root
-        self.fullname = os.path.join(self.root, self.name)
+        self.full_path = os.path.join(self.root, self.name) + ext
         try:
             self.day_month, self.month, _, _, self.year, self.time = File.pars_line(
                 self.name, pat)
@@ -23,7 +23,7 @@ class File:
             self._date_parse_flag = False
 
     def __repr__(self):
-        return self.name
+        return '{} - {}.{}.{}'.format(File.__name__, self.day_month, self.month, self.year)
 
     @property
     def date_parse_flag(self):
@@ -47,26 +47,34 @@ class File:
         return [x for x in result if x]
 
 
-def read_dir(dir, default_ext='.xlsx'):
-    path_lst = []
+def get_files(dir, default_ext='.xlsx'):
+    paths_dict = dict()
     for root, dirs, files in os.walk(dir):
         for name in files:
             name, ext = os.path.splitext(name)
             if ext == default_ext:
-                path_lst.append(File(root, name, ext, PATTERN))
-    return path_lst
+                paths_dict[name] = File(PATTERN, root, name, ext)
+    return paths_dict
+
+
+class XlsxFile:
+    def __init__(self, file_object):
+        self.file_object = file_object
+        wb = load_workbook(self.file_object.full_path)
+        sheet = wb.active
+        print(sheet['D1'].value)
+
 
 
 if __name__ == '__main__':
-    # m = read_dir(
-    #     r'D:\0SYNC\python_projects\xlsxanalize\xlsxanalize\data\Отчёты по Принтеру')
-    # print(m[0].name)
-    # print(m[0].day_month)
-    # print(m[0].year)
-    # print(m[0].time)
-    # print(m[0].date_parse_flag)
-    p = File(ext=EXT, name='30.01-31.01.2016(24).xlsx', pat=PATTERN)
-    print(p.name)
-    print(p.fullname)
-    print(p.day_month)
-    print(p.date_parse_flag)
+    files = get_files(
+        r'D:\0SYNC\python_projects\xlsxanalize\xlsxanalize\data\Отчёты по Принтеру')
+    d = {}
+    for i in files.items():
+        d[i[0]] = XlsxFile(i[1])
+    print(len(d))
+
+
+
+
+
