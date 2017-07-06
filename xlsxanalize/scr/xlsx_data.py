@@ -16,3 +16,18 @@ def change_money():
 
 def total_income():
     return 5200
+
+def expenses_mess():
+    return None
+
+def change_money_expenses():
+    return 100
+
+def salary_mess():
+    return None
+
+def all_expenses():
+    return 100
+
+def total_in_safe():
+    return 5000

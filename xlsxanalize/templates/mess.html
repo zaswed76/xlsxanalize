@@ -8,20 +8,20 @@
 - Касса по клубу (Z-отчёт) -  {{z_report}} грн.<br>
 - Касса по бару - {{bar_income}}грн.<br>
 {% if dop_doh_mess is not none %} {{dop_doh_mess}} {% else %} {{not_mess}} {% endif %}
-- Касса админа - {{admin_doh}} грн.<br>
-- Разменка - {{razmen_doh}} грн.<br>
-<b>Всего по доходам - {{all_doh}} грн.</b><br><br>
+- Касса админа - {{admin_income}} грн.<br>
+- Разменка - {{change_money}} грн.<br>
+<b>Всего по доходам - {{total_income}} грн.</b><br><br>
 
 
-{% if rash_mess is not none %} {{rash_mess}} {% else %} {{not_mess}} {% endif %}
+{% if expenses_mess is not none %} {{expenses_mess}} {% else %} {{not_mess}} {% endif %}
 - Разменка - {{razmen_rash}} грн.<br><br>
 
 <b>Авансы и зарплаты:</b><br>
-{% if zarplata_mess is not none %} {{zarplata_mess}} {% else %} {{not_mess}} {% endif %}
+{% if salary_mess is not none %} {{salary_mess}} {% else %} {{not_mess}} {% endif %}
 
-<b>Итого по расходам  - {{all_rash}} грн.</b><br><br>
-
-
-<b>Итого в сейф - {{in_seyf}} грн.</b>
+<b>Итого по расходам  - {{all_expenses}} грн.</b>
+<br>
+<br>
+<b>Итого в сейф - {{total_in_safe}} грн.</b>
 </body>
 </html>
