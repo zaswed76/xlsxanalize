@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+- Касса по клубу (Z-отчёт) -  {{z_report}} грн.<br>
+- Касса по бару - {{bar_doh}}грн.<br>
+{% if dop_doh_mess is not none %} {{dop_doh_mess}} {% else %} {{not_mess}} {% endif %}
+- Касса админа - {{admin_doh}} грн.<br>
+- Разменка - {{razmen_doh}} грн.<br>
+<b>Всего по доходам - {{all_doh}} грн.</b><br><br>
+
+
+{% if rash_mess is not none %} {{rash_mess}} {% else %} {{not_mess}} {% endif %}
+- Разменка - {{razmen_rash}} грн.<br><br>
+
+<b>Авансы и зарплаты:</b><br>
+{% if zarplata_mess is not none %} {{zarplata_mess}} {% else %} {{not_mess}} {% endif %}
+
+<b>Итого по расходам  - {{all_rash}} грн.</b><br><br>
+
+
+<b>Итого в сейф - {{in_seyf}} грн.</b>
+</body>
+</html>
