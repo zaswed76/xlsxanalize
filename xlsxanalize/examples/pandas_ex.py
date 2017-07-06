@@ -21,7 +21,21 @@ sheet_1 = xl.sheet_names[0]
 # Load a sheet into a DataFrame by name: df1
 df1 = xl.parse(sheet_1)
 
-# print(df1.keys())
-for k, v in df1["Приход"].items():
-    if not pd.isnull(v):
-        print(k, v, sep=" = ")
+# expense_name = df1.keys()[2]
+#
+def data_tabs(key, value):
+    expense_names = [x for x in df1[key].values if not pd.isnull(x)]
+    expense_values = [x for x in df1[value].values if not pd.isnull(x)]
+    return expense_names, expense_values
+
+def check_sum(data):
+    return sum(data[0:-1]) == data[-1]
+
+print(data_tabs("имя прихода", "Приход"))
+incoming = data_tabs("имя прихода", "Приход")
+print(check_sum(incoming[1]))
+
+
+
+
+

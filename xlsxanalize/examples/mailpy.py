@@ -63,5 +63,5 @@ if __name__ == '__main__':
 </html>
 """
     text = "текст"
-    passw = "5422717fasad+vrabey1"
+    passw = ""
     run_mail(mymail, [tomail], subj, html, passw)
