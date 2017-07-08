@@ -1,6 +1,7 @@
 
 
 from xlsxanalize.scr import mess, mailpy
+from xlsxanalize.scr import xlsx_data
 
 xlsx_data_list = ['add_income_mess', 'admin_income', 'all_expenses',
              'bar_income', 'change_money', 'change_money_expenses',
@@ -11,7 +12,9 @@ mymail = "zaswed76@gmail.com"
 tomail = "sergitland@gmail.com"
 subj = "тема"
 
-ms =  mess.Message("../templates", "mess.html")
+xlsxData = xlsx_data.XlxsDada()
+
+ms =  mess.Message("../templates", "mess.html", xlsxData)
 ms.register_xlsx_data(*xlsx_data_list)
 ms_text = ms.text()
 psw = "5422717fasad"
