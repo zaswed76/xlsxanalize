@@ -8,7 +8,9 @@ class Parser:
         "Бар": ("Приход", 0),
         "Доп. Доход": ("Приход", 2),
         "Печать": ("Приход", 3),
-        "Разменка": ("Приход", 7)
+        "Разменка": ("Приход", 7),
+        "РасхРазменка": ("Расход", 7),
+
     }
     def __init__(self, file_path):
         if os.path.isfile(file_path):
@@ -34,5 +36,5 @@ if __name__ == '__main__':
     file_name = 'калькулятор бара отчет.xlsx'
     file_path = os.path.join(DATA_DIR, file_name)
     pars = Parser(file_path)
-    print(pars("Разменка"))
+    print(pars("РасхРазменка"))
 
