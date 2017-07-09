@@ -13,16 +13,17 @@ mymail = "zaswed76@gmail.com"
 tomail = "sergitland@gmail.com"
 subj = "тема"
 
-DATA_DIR = "../data"
+DATA_DIR = "./data"
 file_name = 'калькулятор бара отчет.xlsx'
 file_path = os.path.join(DATA_DIR, file_name)
 
 parser = xlsx_parser.Parser(file_path)
 xlsxData = xlsx_data.XlxsDada(parser)
 
-ms =  mess.Message("../templates", "mess.html", xlsxData)
+ms =  mess.Message("./text", "mess.html", xlsxData)
 ms.register_xlsx_data(*xlsx_data_list)
 ms_text = ms.text()
-psw = "5422717fasad"
+print(ms_text)
+psw = "5422717fasad+vrabey1"
 
 mailpy.run_mail(mymail, [tomail], subj, ms_text, psw)

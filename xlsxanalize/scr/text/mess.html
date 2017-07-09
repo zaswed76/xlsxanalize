@@ -11,17 +11,11 @@
 - Касса админа - {{admin_income}} грн.<br>
 - Разменка - {{change_money}} грн.<br>
 <b>Всего по доходам - {{total_income}} грн.</b><br><br>
-
-
 {% if expenses_mess is not none %} {{expenses_mess}} {% else %} {{not_mess}} {% endif %}
 - Разменка - {{change_money_expenses}} грн.<br><br>
-
 <b>Авансы и зарплаты:</b><br>
-{% if salary_mess is not none %} {{salary_mess}} {% else %} {{not_mess}} {% endif %}
-<br>
-<b>Итого по расходам  - {{all_expenses}} грн.</b>
-<br>
-<br>
+{% if salary_mess is not none %} {{salary_mess}}<br> {% else %} {{not_mess}} {% endif %}
+<b>Итого по расходам  - {{all_expenses}} грн.</b><br><br>
 <b>Итого в сейф - {{total_in_safe}} грн.</b>
 </body>
 </html>

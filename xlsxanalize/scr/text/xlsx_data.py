@@ -21,13 +21,19 @@ class XlxsDada:
         return self.parser.by_name(self.parser.TOTAL_INCOME)
 
     def expenses_mess(self):
-        return None
+        lst = []
+        for name, v in self.parser.expense()["expense"]:
+            lst.append("- {} - {} грн.<br>".format(name, v))
+        return "".join(lst)
 
     def change_money_expenses(self):
         return self.parser.by_name(self.parser.CHANGE_MONEY_EXPENSES)
 
     def salary_mess(self):
-        return None
+        lst = []
+        for name, v in self.parser.expense()["salary"]:
+            lst.append("- {} - {} грн.<br>".format(name, v))
+        return "".join(lst)
 
     def all_expenses(self):
         return self.parser.by_name(self.parser.ALL_EXPENSES)
