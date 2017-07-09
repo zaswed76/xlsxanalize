@@ -1,10 +1,7 @@
-
-from xlsxanalize.scr.pars import xlsx_parser
-
-
 class XlxsDada:
-    def __init__(self):
-        pass
+    def __init__(self, parser):
+        self.parser = parser
+
     def z_report(self):
         return 5000
 
