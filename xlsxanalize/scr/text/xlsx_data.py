@@ -3,34 +3,34 @@ class XlxsDada:
         self.parser = parser
 
     def z_report(self):
-        return 5000
+        return self.parser.by_name(self.parser.Z_REPORT)
 
     def bar_income(self):
-        return 100
+        return self.parser.by_name(self.parser.BAR_INCOME)
 
     def add_income_mess(self):
         return None
 
     def admin_income(self):
-        return 0
+        return self.parser.by_name(self.parser.ADMIN_INCOME)
 
     def change_money(self):
-        return 100
+        return self.parser.by_name(self.parser.CHANGE_MONEY)
 
     def total_income(self):
-        return 5200
+        return self.parser.by_name(self.parser.TOTAL_INCOME)
 
     def expenses_mess(self):
         return None
 
     def change_money_expenses(self):
-        return 100
+        return self.parser.by_name(self.parser.CHANGE_MONEY_EXPENSES)
 
     def salary_mess(self):
         return None
 
     def all_expenses(self):
-        return 100
+        return self.parser.by_name(self.parser.ALL_EXPENSES)
 
     def total_in_safe(self):
-        return 5000
+        return self.parser.by_name(self.parser.TOTAL_IN_SAFE)
