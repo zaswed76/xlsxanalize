@@ -34,6 +34,7 @@ class Parser:
             self.file_path = file_path
             print("файл", self.file_path)
         else:
+            print("{}".format(file_path))
             raise FileNotFoundError("файл не найден")
 
         self.xl = pd.ExcelFile(file_path)
