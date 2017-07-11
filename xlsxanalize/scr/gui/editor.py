@@ -4,11 +4,24 @@ from PyQt5 import QtWidgets
 
 from scr.text import mess
 
-
-class Widget(QtWidgets.QTextEdit):
+class Editor(QtWidgets.QTextEdit):
     def __init__(self):
         super().__init__()
+
+class MainEditor(QtWidgets.QMainWindow):
+    def __init__(self, editor):
+        super().__init__()
+        self.central_widget = QtWidgets.QFrame()
+        self.setCentralWidget(self.central_widget)
+        self.editor = editor
         self.resize(500, 500)
+        box = QtWidgets.QVBoxLayout(self.central_widget)
+        box.setContentsMargins(0, 0, 0, 0)
+        box.setSpacing(1)
+
+        box.addWidget(self.editor)
+
+
 
 
 if __name__ == '__main__':
@@ -30,8 +43,10 @@ if __name__ == '__main__':
     ms.register_xlsx_data(*xlsx_data_list)
     ms_text = ms.text()
     app = QtWidgets.QApplication(sys.argv)
-    # app.setStyleSheet(open('settings/style.qss', "r").read())
-    main = Widget()
-    main.setHtml(ms_text)
+    app.setStyleSheet(open('../style/css/base.css', "r").read())
+    editor = Editor()
+    main = MainEditor(editor)
+    # main = Editor()
+    editor.setHtml(ms_text)
     main.show()
     sys.exit(app.exec_())

@@ -1,0 +1,13 @@
+
+
+QTextEdit {
+    border: 1px solid #ababab;
+    padding: 0;
+    border-radius: 4px;
+    background-color: #f3ebdc;
+    font-family: Helvetica;
+    font-size: 14pt;
+    color: #2b2b2b;
+
+
+}
