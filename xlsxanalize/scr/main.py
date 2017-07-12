@@ -24,6 +24,6 @@ ms =  mess.Message("./text", "mess.html", xlsxData)
 ms.register_xlsx_data(*xlsx_data_list)
 ms_text = ms.text()
 print(ms_text)
-psw = "5422717fasad+vrabey1"
+psw = "5422717fasad"
 
 mailpy.run_mail(mymail, [tomail], subj, ms_text, psw)

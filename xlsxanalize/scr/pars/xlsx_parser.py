@@ -60,6 +60,9 @@ class Parser:
                     lst.append((name, self.df1["Расход"][n]))
         return {"expense": lst, "salary": salary_lst}
 
+    def theme(self):
+        return "Отчет Бар Лесной за 09.07.2017-10.07.2017 (24)"
+
 
 if __name__ == '__main__':
     DATA_DIR = "../data"

@@ -43,7 +43,7 @@ if __name__ == '__main__':
     xlsx_data_list = ['add_income_mess', 'admin_income', 'all_expenses',
                       'bar_income', 'change_money', 'change_money_expenses',
                       'expenses_mess', 'salary_mess', 'total_in_safe',
-                      'total_income', 'z_report']
+                      'total_income', 'z_report', "theme"]
 
     DATA_DIR = "../data"
     file_name = 'калькулятор бара отчет.xlsx'
@@ -54,6 +54,7 @@ if __name__ == '__main__':
     ms = mess.Message("./", "mess.html", xlsxData)
     ms.register_xlsx_data(*xlsx_data_list)
     ms_text = ms.text()
+    theme = ms.theme()
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet(open('../style/css/base.css', "r").read())
     theme_editor = ThemeEditor()

@@ -40,3 +40,8 @@ class XlxsDada:
 
     def total_in_safe(self):
         return self.parser.by_name(self.parser.TOTAL_IN_SAFE)
+
+    def theme(self):
+        return self.parser.theme()
+
+

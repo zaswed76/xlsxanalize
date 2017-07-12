@@ -10,6 +10,7 @@ class Message:
         self.env = Environment(loader=FileSystemLoader(templates_dir))
         self.template = self.env.get_template(template_file)
         self.xlsx_data = dict()
+        self._theme = None
 
     def register_xlsx_data(self, *data_meth):
         for line in data_meth:
@@ -18,6 +19,10 @@ class Message:
 
     def text(self):
         return self.template.render(self.xlsx_data)
+
+    def theme(self):
+        pass
+
 
 if __name__ == '__main__':
 
