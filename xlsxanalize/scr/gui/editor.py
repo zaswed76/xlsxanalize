@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 
 from PyQt5 import QtWidgets
 
+actions_names = ["undo.png", "redo.png", "SPACER", "setting.png"]
 from scr.text import mess
 from xlsxanalize.scr.gui import tool, widgets
 
@@ -20,7 +21,7 @@ class ThemeEditor(QtWidgets.QLineEdit):
 
 
 class MainEditor(widgets.MainWidget):
-    actions_names = ["undo.png", "redo.png", "setting.png"]
+
     def __init__(self, editor, theme_editor):
         super().__init__()
         self.resize(400, 600)
@@ -28,7 +29,7 @@ class MainEditor(widgets.MainWidget):
         self.editor = editor
 
         self.load_style_sheet("base")
-        self.tool = widgets.Tool(self, 22, self.tool_actions(self.actions_names))
+        self.tool = widgets.Tool(self, 26, self.tool_actions(actions_names))
         self.init_tool_bar(self.tool)
 
         self.center_box.addWidget(self.theme_editor)

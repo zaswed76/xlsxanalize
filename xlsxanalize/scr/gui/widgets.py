@@ -40,7 +40,6 @@ class Tool(QtWidgets.QToolBar):
         self.init_actions(actions)
 
     def init_actions(self, actions):
-        print(actions)
         for item in actions:
             if isinstance(item, Action):
                 self.addAction(item)
