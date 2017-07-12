@@ -1,5 +1,7 @@
 import os
 import sys
+from PyQt5 import QtCore
+
 from PyQt5 import QtWidgets
 
 from scr.text import mess
@@ -8,17 +10,27 @@ class Editor(QtWidgets.QTextEdit):
     def __init__(self):
         super().__init__()
 
+class ThemeEditor(QtWidgets.QLineEdit):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        self.setAlignment(QtCore.Qt.AlignLeft)
+        self.setTextMargins(15, 0, 0, 0)
+
+
+
 class MainEditor(QtWidgets.QMainWindow):
-    def __init__(self, editor):
+    def __init__(self, editor, theme_editor):
         super().__init__()
+        self.theme_editor = theme_editor
         self.central_widget = QtWidgets.QFrame()
         self.setCentralWidget(self.central_widget)
         self.editor = editor
-        self.resize(500, 500)
+        self.resize(600, 500)
         box = QtWidgets.QVBoxLayout(self.central_widget)
         box.setContentsMargins(0, 0, 0, 0)
-        box.setSpacing(1)
+        box.setSpacing(0)
 
+        box.addWidget(self.theme_editor)
         box.addWidget(self.editor)
 
 
@@ -44,8 +56,10 @@ if __name__ == '__main__':
     ms_text = ms.text()
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet(open('../style/css/base.css', "r").read())
+    theme_editor = ThemeEditor()
+    theme_editor.setText("Отчет Бар Лесной за 09.07.2017-10.07.2017 (24)")
     editor = Editor()
-    main = MainEditor(editor)
+    main = MainEditor(editor, theme_editor)
     # main = Editor()
     editor.setHtml(ms_text)
     main.show()
