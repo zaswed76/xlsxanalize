@@ -17,13 +17,17 @@ DATA_DIR = "./data"
 file_name = 'калькулятор бара отчет.xlsx'
 file_path = os.path.join(DATA_DIR, file_name)
 
-parser = xlsx_parser.Parser(file_path)
+report_path_name = "12.07-13.07.2017 (сутки) отчет Бар лесной .xlsx"
+bar_report_path = os.path.join(DATA_DIR, report_path_name)
+
+parser = xlsx_parser.Parser(file_path, bar_report_path)
 xlsxData = xlsx_data.XlxsDada(parser)
 
 ms =  mess.Message("./text", "mess.html", xlsxData)
 ms.register_xlsx_data(*xlsx_data_list)
 ms_text = ms.text()
-print(ms_text)
+theme = ms.theme()
+
 psw = "5422717fasad"
 
-mailpy.run_mail(mymail, [tomail], subj, ms_text, psw)
+mailpy.run_mail(mymail, [tomail], theme, ms_text, psw)

@@ -1,3 +1,4 @@
+import os
 
 from jinja2 import Environment, FileSystemLoader
 from xlsxanalize.scr.text import xlsx_data
@@ -21,18 +22,25 @@ class Message:
         return self.template.render(self.xlsx_data)
 
     def theme(self):
-        pass
+        return self.xlsxdata.theme()
 
 
 if __name__ == '__main__':
 
-
+    from xlsxanalize.scr.pars import xlsx_parser
     xlsx_data_list = ['add_income_mess', 'admin_income', 'all_expenses',
              'bar_income', 'change_money', 'change_money_expenses',
              'expenses_mess', 'salary_mess', 'total_in_safe',
              'total_income', 'z_report']
-    xlsxData = xlsx_data.XlxsDada()
-    ms = Message("../templates", "mess.html", xlsxData)
+
+    DATA_DIR = "../data"
+    file_name = 'калькулятор бара отчет.xlsx'
+    file_path = os.path.join(DATA_DIR, file_name)
+
+    parser = xlsx_parser.Parser(file_path)
+
+    xlsxData = xlsx_data.XlxsDada(parser)
+    ms = Message("../text", "mess.html", xlsxData)
     ms.register_xlsx_data(*xlsx_data_list)
-    print(ms.text())
+    print(ms.theme())
 

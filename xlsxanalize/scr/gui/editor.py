@@ -5,6 +5,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 
 from scr.text import mess
+from xlsxanalize.scr.gui import tool
 
 class Editor(QtWidgets.QTextEdit):
     def __init__(self):
@@ -33,6 +34,9 @@ class MainEditor(QtWidgets.QMainWindow):
         box.addWidget(self.theme_editor)
         box.addWidget(self.editor)
 
+    def set_tool(self, tool):
+        self.tool = tool
+        self.addToolBar(QtCore.Qt.BottomToolBarArea, self.tool)
 
 
 
@@ -49,7 +53,10 @@ if __name__ == '__main__':
     file_name = 'калькулятор бара отчет.xlsx'
     file_path = os.path.join(DATA_DIR, file_name)
 
-    parser = xlsx_parser.Parser(file_path)
+    report_path_name = "12.07-13.07.2017 (сутки) отчет Бар лесной .xlsx"
+    bar_report_path = os.path.join(DATA_DIR, report_path_name)
+
+    parser = xlsx_parser.Parser(file_path, bar_report_path)
     xlsxData = xlsx_data.XlxsDada(parser)
     ms = mess.Message("./", "mess.html", xlsxData)
     ms.register_xlsx_data(*xlsx_data_list)
@@ -58,10 +65,11 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet(open('../style/css/base.css', "r").read())
     theme_editor = ThemeEditor()
-    theme_editor.setText("Отчет Бар Лесной за 09.07.2017-10.07.2017 (24)")
+    theme_editor.setText(theme)
     editor = Editor()
     main = MainEditor(editor, theme_editor)
-    # main = Editor()
+    tool_bar = tool.Tool()
+    main.set_tool(tool_bar)
     editor.setHtml(ms_text)
     main.show()
     sys.exit(app.exec_())

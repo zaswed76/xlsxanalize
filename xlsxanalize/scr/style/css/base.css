@@ -8,6 +8,7 @@ QTextEdit {
     font-family: Helvetica;
     font-size: 14pt;
     color: #2b2b2b;
+    min-height: 500px;
 
 
 
@@ -29,6 +30,12 @@ QLineEdit {
     text-align: right;
     text-indent: 10em;
 
+}
 
-
+Tool {
+    border-bottom: 1px solid #398ebb;;
+    border-top: none;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+    min-height: 40px;
 }

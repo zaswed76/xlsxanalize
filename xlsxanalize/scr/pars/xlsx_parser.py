@@ -29,17 +29,25 @@ class Parser:
     }
     SALARY_PAT = re.compile(r"аванс|зарплата", flags=re.IGNORECASE)
 
-    def __init__(self, file_path):
+    def __init__(self, file_path, bar_report_path):
         if os.path.isfile(file_path):
             self.file_path = file_path
-            print("файл", self.file_path)
         else:
-            print("{}".format(file_path))
-            raise FileNotFoundError("файл не найден")
+            raise FileNotFoundError("файл - \n{}\n не найден".format(file_path))
 
-        self.xl = pd.ExcelFile(file_path)
+        if os.path.isfile(bar_report_path):
+            self.bar_report_path = bar_report_path
+        else:
+            raise FileNotFoundError(
+                "файл - \n{}\n не найден".format(bar_report_path))
+
+        self.df1 = self.load_file(self.file_path)
+        self.report_df = self.load_file(self.bar_report_path)
+
+    def load_file(self, file):
+        self.xl = pd.ExcelFile(file)
         self.sheet_1 = self.xl.sheet_names[0]
-        self.df1 = self.xl.parse(self.sheet_1)
+        return self.xl.parse(self.sheet_1)
 
     def by_name(self, name):
         return self.df1[name[0]][name[1]]
@@ -61,12 +69,19 @@ class Parser:
         return {"expense": lst, "salary": salary_lst}
 
     def theme(self):
-        return "Отчет Бар Лесной за 09.07.2017-10.07.2017 (24)"
+        return self.report_df.iloc[0][1]
+
+    def _theme_test(self):
+        return self.report_df.iloc[0][1]
 
 
 if __name__ == '__main__':
     DATA_DIR = "../data"
     file_name = 'калькулятор бара отчет.xlsx'
     file_path = os.path.join(DATA_DIR, file_name)
-    pars = Parser(file_path)
-    print(pars.expense())
+
+    report_path_name = "12.07-13.07.2017 (сутки) отчет Бар лесной .xlsx"
+    bar_report_path = os.path.join(DATA_DIR, report_path_name)
+
+    pars = Parser(file_path, bar_report_path)
+    print(pars._theme_test())
