@@ -33,9 +33,17 @@ QLineEdit {
 }
 
 Tool {
-    border-bottom: 1px solid #398ebb;;
+    border-bottom: none;
     border-top: none;
     border-left: 1px solid #398ebb;
     border-right: 1px solid #398ebb;
     min-height: 40px;
+}
+
+QMainWindow {
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: none;
+    border-right: none;
+
 }

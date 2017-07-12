@@ -5,7 +5,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 
 from scr.text import mess
-from xlsxanalize.scr.gui import tool
+from xlsxanalize.scr.gui import tool, widgets
 
 class Editor(QtWidgets.QTextEdit):
     def __init__(self):
@@ -19,26 +19,29 @@ class ThemeEditor(QtWidgets.QLineEdit):
 
 
 
-class MainEditor(QtWidgets.QMainWindow):
+class MainEditor(widgets.MainWidget):
+    actions_names = ["undo.png", "redo.png", "setting.png"]
     def __init__(self, editor, theme_editor):
         super().__init__()
+        self.resize(400, 600)
         self.theme_editor = theme_editor
-        self.central_widget = QtWidgets.QFrame()
-        self.setCentralWidget(self.central_widget)
         self.editor = editor
-        self.resize(600, 500)
-        box = QtWidgets.QVBoxLayout(self.central_widget)
-        box.setContentsMargins(0, 0, 0, 0)
-        box.setSpacing(0)
 
-        box.addWidget(self.theme_editor)
-        box.addWidget(self.editor)
+        self.load_style_sheet("base")
+        self.tool = widgets.Tool(self, 22, self.tool_actions(self.actions_names))
+        self.init_tool_bar(self.tool)
 
-    def set_tool(self, tool):
-        self.tool = tool
-        self.addToolBar(QtCore.Qt.BottomToolBarArea, self.tool)
+        self.center_box.addWidget(self.theme_editor)
+        self.center_box.addWidget(self.editor)
 
+    def undo(self):
+        print("undo")
 
+    def redo(self):
+        print("redo")
+
+    def setting(self):
+        print("setting")
 
 if __name__ == '__main__':
     from xlsxanalize.scr.text import mess, xlsx_data
@@ -68,8 +71,8 @@ if __name__ == '__main__':
     theme_editor.setText(theme)
     editor = Editor()
     main = MainEditor(editor, theme_editor)
-    tool_bar = tool.Tool()
-    main.set_tool(tool_bar)
+
+
     editor.setHtml(ms_text)
     main.show()
     sys.exit(app.exec_())
