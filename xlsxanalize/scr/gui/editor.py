@@ -2,11 +2,13 @@ import os
 import sys
 from PyQt5 import QtCore
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, uic
 
 actions_names = ["undo.png", "redo.png", "SPACER", "setting.png"]
 from scr.text import mess
-from xlsxanalize.scr.gui import tool, widgets
+from xlsxanalize.scr.gui import  widgets
+
+ui_dir = "../gui/ui"
 
 class Editor(QtWidgets.QTextEdit):
     def __init__(self):
@@ -35,6 +37,10 @@ class MainEditor(widgets.MainWidget):
         self.center_box.addWidget(self.theme_editor)
         self.center_box.addWidget(self.editor)
 
+        self.setting_widg = uic.loadUi(os.path.join(ui_dir, "setting.ui"))
+
+
+
     def undo(self):
         print("undo")
 
@@ -43,6 +49,7 @@ class MainEditor(widgets.MainWidget):
 
     def setting(self):
         print("setting")
+        self.setting_widg.show()
 
 if __name__ == '__main__':
     from xlsxanalize.scr.text import mess, xlsx_data
