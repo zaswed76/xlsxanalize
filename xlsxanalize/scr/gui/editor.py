@@ -8,6 +8,7 @@ from PyQt5 import QtWidgets, uic, QtCore
 
 from scr.text import mess
 from xlsxanalize.scr.gui import widgets
+from xlsxanalize.scr import service
 
 actions_names = ["undo.png", "redo.png", "SPACER", "setting.png"]
 ui_dir = "../gui/ui"
@@ -62,7 +63,8 @@ class MainEditor(widgets.MainWidget):
             self.calc_choos_file)
 
     def get_message(self, file_path, bar_report_path):
-        if not file_path or bar_report_path:
+        print(file_path, bar_report_path)
+        if not file_path or not bar_report_path:
             return "", ""
 
         parser = xlsx_parser.Parser(file_path, bar_report_path)
@@ -70,12 +72,14 @@ class MainEditor(widgets.MainWidget):
         ms = mess.Message("./", "mess.html", xlsxData)
         ms.register_xlsx_data(*xlsx_data_list)
         ms_text = ms.text()
+        print(ms_text)
         theme = ms.theme()
         return ms_text, theme
 
     def show_text(self):
         file_path = self.cfg["calc_file"]
-        bar_report_path = self.cfg["reports_dir"]
+        bar_report_path = service.report(self.cfg["reports_dir"])
+
         ms_text, theme = self.get_message(file_path, bar_report_path)
         theme_editor.setText(theme)
         editor.setHtml(ms_text)
@@ -126,7 +130,6 @@ class MainEditor(widgets.MainWidget):
 
     def save_conf(self, cfg):
         with open(config_path, 'w') as f:
-            print(cfg, "cfg")
             yaml.dump(cfg, f, default_flow_style=False)
 
 

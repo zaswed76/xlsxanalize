@@ -30,6 +30,7 @@ class Parser:
     SALARY_PAT = re.compile(r"аванс|зарплата", flags=re.IGNORECASE)
 
     def __init__(self, file_path, bar_report_path):
+
         if os.path.isfile(file_path):
             self.file_path = file_path
         else:
@@ -39,10 +40,13 @@ class Parser:
             self.bar_report_path = bar_report_path
         else:
             self.bar_report_path = ""
-            # raise FileNotFoundError(
-            #     "файл - \n{}\n не найден".format(bar_report_path))
+            raise FileNotFoundError(
+                "файл - \n{}\n не найден".format(bar_report_path))
 
         self.df1 = self.load_file(self.file_path)
+        print("--------------------------------")
+        print(self.df1)
+
         self.report_df = self.load_file(self.bar_report_path)
 
     def load_file(self, file):
