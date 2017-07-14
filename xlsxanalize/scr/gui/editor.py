@@ -1,18 +1,20 @@
 import os
 import sys
-from PyQt5 import QtCore
 
-from PyQt5 import QtWidgets, uic
+from functools import partial
+from PyQt5 import QtWidgets, uic, QtCore
 
 actions_names = ["undo.png", "redo.png", "SPACER", "setting.png"]
 from scr.text import mess
-from xlsxanalize.scr.gui import  widgets
+from xlsxanalize.scr.gui import widgets
 
 ui_dir = "../gui/ui"
+
 
 class Editor(QtWidgets.QTextEdit):
     def __init__(self):
         super().__init__()
+
 
 class ThemeEditor(QtWidgets.QLineEdit):
     def __init__(self, *__args):
@@ -21,9 +23,7 @@ class ThemeEditor(QtWidgets.QLineEdit):
         self.setTextMargins(15, 0, 0, 0)
 
 
-
 class MainEditor(widgets.MainWidget):
-
     def __init__(self, editor, theme_editor):
         super().__init__()
         self.resize(400, 600)
@@ -37,7 +37,27 @@ class MainEditor(widgets.MainWidget):
         self.center_box.addWidget(self.theme_editor)
         self.center_box.addWidget(self.editor)
 
-        self.setting_widg = uic.loadUi(os.path.join(ui_dir, "setting.ui"))
+        self.set_widg = uic.loadUi(
+            os.path.join(ui_dir, "setting.ui"))
+
+        self.set_widg.report_dir_btn.clicked.connect(
+            self.report_chooce_dir)
+
+        self.set_widg.calc_file_btn.clicked.connect(
+            self.calc_choos_file)
+
+    def report_chooce_dir(self):
+        directory = self.choose_dir()
+
+    def calc_choos_file(self):
+        f = self.showDialog()
+
+    def showDialog(self):
+        return QtWidgets.QFileDialog.getOpenFileName(self, 'Open file')[0]
+
+    def choose_dir(self):
+        return str(QtWidgets.QFileDialog.getExistingDirectory(
+            self, "Select Directory"))
 
 
 
@@ -48,8 +68,10 @@ class MainEditor(widgets.MainWidget):
         print("redo")
 
     def setting(self):
-        print("setting")
-        self.setting_widg.show()
+        self.set_widg.show()
+
+
+
 
 if __name__ == '__main__':
     from xlsxanalize.scr.text import mess, xlsx_data
@@ -79,7 +101,6 @@ if __name__ == '__main__':
     theme_editor.setText(theme)
     editor = Editor()
     main = MainEditor(editor, theme_editor)
-
 
     editor.setHtml(ms_text)
     main.show()
