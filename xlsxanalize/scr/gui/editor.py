@@ -29,6 +29,8 @@ class ThemeEditor(QtWidgets.QLineEdit):
 class MainEditor(widgets.MainWidget):
     def __init__(self, editor, theme_editor):
         super().__init__()
+        self.cfg = yaml.load(open(config_path))
+        self.cfg_copy = self.cfg.copy()
         self.resize(400, 600)
         self.theme_editor = theme_editor
         self.editor = editor
@@ -47,34 +49,41 @@ class MainEditor(widgets.MainWidget):
         self.set_widg.set_close.clicked.connect(
             self.close_set)
 
+
+
         self.set_widg.set_ok.clicked.connect(
-            self.close_set)
+            self.ok_set)
 
         self.set_widg.report_dir_btn.clicked.connect(
             self.report_chooce_dir)
+        self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
 
         self.set_widg.calc_file_btn.clicked.connect(
             self.calc_choos_file)
+        self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
 
-        self.cfg = yaml.load(open(config_path))
+
 
     def close_set(self):
+        self.cfg_copy.update(self.cfg)
         self.set_widg.close()
 
-    def set_widg_close(self):
-        print("set_widg", "close")
+    def ok_set(self):
+        self.cfg.update(self.cfg_copy)
+        self.save_conf(self.cfg)
+        self.set_widg.close()
 
     def report_chooce_dir(self):
         directory = self.choose_dir()
         if directory:
-            self.cfg["reports_dir"] = directory
+            self.cfg_copy["reports_dir"] = directory
             self.set_widg.report_dir_btn.setText(directory)
 
 
     def calc_choos_file(self):
         f = self.showDialog()
         if f:
-            self.cfg["calc_file"] = f
+            self.cfg_copy["calc_file"] = f
             self.set_widg.calc_file_btn.setText(f)
 
     def showDialog(self):
@@ -92,6 +101,11 @@ class MainEditor(widgets.MainWidget):
 
     def setting(self):
         self.set_widg.show()
+
+    def save_conf(self, cfg):
+        with open(config_path, 'w') as f:
+            print(cfg, "cfg")
+            yaml.dump(cfg, f, default_flow_style=False)
 
 
 if __name__ == '__main__':
