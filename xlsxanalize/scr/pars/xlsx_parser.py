@@ -38,14 +38,18 @@ class Parser:
         if os.path.isfile(bar_report_path):
             self.bar_report_path = bar_report_path
         else:
-            raise FileNotFoundError(
-                "файл - \n{}\n не найден".format(bar_report_path))
+            self.bar_report_path = ""
+            # raise FileNotFoundError(
+            #     "файл - \n{}\n не найден".format(bar_report_path))
 
         self.df1 = self.load_file(self.file_path)
         self.report_df = self.load_file(self.bar_report_path)
 
     def load_file(self, file):
-        self.xl = pd.ExcelFile(file)
+        try:
+            self.xl = pd.ExcelFile(file)
+        except FileNotFoundError:
+            return None
         self.sheet_1 = self.xl.sheet_names[0]
         return self.xl.parse(self.sheet_1)
 

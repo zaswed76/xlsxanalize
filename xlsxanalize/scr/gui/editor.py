@@ -61,6 +61,24 @@ class MainEditor(widgets.MainWidget):
         self.set_widg.calc_file_btn.clicked.connect(
             self.calc_choos_file)
 
+    def get_message(self, file_path, bar_report_path):
+        if not file_path or bar_report_path:
+            return "", ""
+
+        parser = xlsx_parser.Parser(file_path, bar_report_path)
+        xlsxData = xlsx_data.XlxsDada(parser)
+        ms = mess.Message("./", "mess.html", xlsxData)
+        ms.register_xlsx_data(*xlsx_data_list)
+        ms_text = ms.text()
+        theme = ms.theme()
+        return ms_text, theme
+
+    def show_text(self):
+        file_path = self.cfg["calc_file"]
+        bar_report_path = self.cfg["reports_dir"]
+        ms_text, theme = self.get_message(file_path, bar_report_path)
+        theme_editor.setText(theme)
+        editor.setHtml(ms_text)
 
 
     def setting_set_conf(self):
@@ -112,6 +130,9 @@ class MainEditor(widgets.MainWidget):
             yaml.dump(cfg, f, default_flow_style=False)
 
 
+
+
+
 if __name__ == '__main__':
     from xlsxanalize.scr.text import mess, xlsx_data
     from xlsxanalize.scr.pars import xlsx_parser
@@ -121,26 +142,17 @@ if __name__ == '__main__':
                       'expenses_mess', 'salary_mess', 'total_in_safe',
                       'total_income', 'z_report', "theme"]
 
-    DATA_DIR = "../data"
-    file_name = 'калькулятор бара отчет.xlsx'
-    file_path = os.path.join(DATA_DIR, file_name)
 
-    report_path_name = "12.07-13.07.2017 (сутки) отчет Бар лесной .xlsx"
-    bar_report_path = os.path.join(DATA_DIR, report_path_name)
 
-    parser = xlsx_parser.Parser(file_path, bar_report_path)
-    xlsxData = xlsx_data.XlxsDada(parser)
-    ms = mess.Message("./", "mess.html", xlsxData)
-    ms.register_xlsx_data(*xlsx_data_list)
-    ms_text = ms.text()
-    theme = ms.theme()
+
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet(open('../style/css/base.css', "r").read())
     theme_editor = ThemeEditor()
-    theme_editor.setText(theme)
+
     editor = Editor()
     main = MainEditor(editor, theme_editor)
 
-    editor.setHtml(ms_text)
+
     main.show()
+    main.show_text()
     sys.exit(app.exec_())
