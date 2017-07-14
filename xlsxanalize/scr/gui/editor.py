@@ -56,13 +56,16 @@ class MainEditor(widgets.MainWidget):
 
         self.set_widg.report_dir_btn.clicked.connect(
             self.report_chooce_dir)
-        self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
+
 
         self.set_widg.calc_file_btn.clicked.connect(
             self.calc_choos_file)
+
+
+
+    def setting_set_conf(self):
         self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
-
-
+        self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
 
     def close_set(self):
         self.cfg_copy.update(self.cfg)
@@ -100,6 +103,7 @@ class MainEditor(widgets.MainWidget):
         print("redo")
 
     def setting(self):
+        self.setting_set_conf()
         self.set_widg.show()
 
     def save_conf(self, cfg):
