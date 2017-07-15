@@ -44,8 +44,7 @@ class Parser:
                 "файл - \n{}\n не найден".format(bar_report_path))
 
         self.df1 = self.load_file(self.file_path)
-        print("--------------------------------")
-        print(self.df1)
+
 
         self.report_df = self.load_file(self.bar_report_path)
 

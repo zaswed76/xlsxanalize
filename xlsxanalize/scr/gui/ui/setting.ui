@@ -59,6 +59,23 @@ text-align: left;</string>
     </widget>
    </item>
    <item>
+    <widget class="QPushButton" name="report_file">
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: italic 12pt &quot;Source Sans Pro&quot;;
+text-align: left;</string>
+     </property>
+     <property name="text">
+      <string>файл отчёта</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QPushButton" name="calc_file_btn">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">

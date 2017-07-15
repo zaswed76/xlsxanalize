@@ -92,7 +92,6 @@ class MainWidget(QtWidgets.QMainWindow):
     def load_style_sheet(self, sheetName):
         file_name = sheetName + '.css'
         file = QFile('../style/css/{}'.format(file_name))
-        print(file, 555)
         file.open(QFile.ReadOnly)
         styleSheet = file.readAll()
         styleSheet = str(styleSheet, encoding='utf8')

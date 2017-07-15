@@ -50,20 +50,19 @@ class MainEditor(widgets.MainWidget):
         self.set_widg.set_close.clicked.connect(
             self.close_set)
 
-
-
         self.set_widg.set_ok.clicked.connect(
             self.ok_set)
 
         self.set_widg.report_dir_btn.clicked.connect(
             self.report_chooce_dir)
 
-
         self.set_widg.calc_file_btn.clicked.connect(
             self.calc_choos_file)
 
+        self.set_widg.report_file.clicked.connect(
+            self.report_file)
+
     def get_message(self, file_path, bar_report_path):
-        print(file_path, bar_report_path)
         if not file_path or not bar_report_path:
             return "", ""
 
@@ -72,7 +71,6 @@ class MainEditor(widgets.MainWidget):
         ms = mess.Message("./", "mess.html", xlsxData)
         ms.register_xlsx_data(*xlsx_data_list)
         ms_text = ms.text()
-        print(ms_text)
         theme = ms.theme()
         return ms_text, theme
 
@@ -84,7 +82,7 @@ class MainEditor(widgets.MainWidget):
             ms_text, theme = self.get_message(file_path, bar_report_path)
         except:
             ms_text, theme = ("none", "none")
-        theme_editor.setText(theme)
+        theme_editor.setText(str(theme))
         editor.setHtml(ms_text)
 
 
@@ -101,6 +99,12 @@ class MainEditor(widgets.MainWidget):
         self.save_conf(self.cfg)
         self.show_text()
         self.set_widg.close()
+
+    def report_file(self):
+        f = self.showDialog()
+        if f:
+            self.cfg_copy["report_file"] = f
+            self.set_widg.report_file.setText(f)
 
     def report_chooce_dir(self):
         directory = self.choose_dir()
