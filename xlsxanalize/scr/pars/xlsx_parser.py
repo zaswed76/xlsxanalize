@@ -27,7 +27,7 @@ class Parser:
         "total_in_safe": TOTAL_IN_SAFE
 
     }
-    SALARY_PAT = re.compile(r"аванс|зарплата", flags=re.IGNORECASE)
+    SALARY_PAT = re.compile(r"аванс|зарплата|зп.", flags=re.IGNORECASE)
 
     def __init__(self, file_path, bar_report_path):
 

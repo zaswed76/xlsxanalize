@@ -10,7 +10,7 @@ from scr.text import mess
 from xlsxanalize.scr.gui import widgets
 from xlsxanalize.scr import service
 
-actions_names = ["undo.png", "redo.png", "SPACER", "setting.png"]
+actions_names = ["undo.png", "redo.png", "SPACER", "send2.png", "setting.png"]
 ui_dir = "../gui/ui"
 config_path = "../etc/config.yaml"
 
@@ -80,7 +80,10 @@ class MainEditor(widgets.MainWidget):
         file_path = self.cfg["calc_file"]
         bar_report_path = service.report(self.cfg["reports_dir"])
 
-        ms_text, theme = self.get_message(file_path, bar_report_path)
+        try:
+            ms_text, theme = self.get_message(file_path, bar_report_path)
+        except:
+            ms_text, theme = ("none", "none")
         theme_editor.setText(theme)
         editor.setHtml(ms_text)
 
@@ -96,6 +99,7 @@ class MainEditor(widgets.MainWidget):
     def ok_set(self):
         self.cfg.update(self.cfg_copy)
         self.save_conf(self.cfg)
+        self.show_text()
         self.set_widg.close()
 
     def report_chooce_dir(self):
@@ -123,6 +127,9 @@ class MainEditor(widgets.MainWidget):
 
     def redo(self):
         print("redo")
+
+    def send2(self):
+        print("send")
 
     def setting(self):
         self.setting_set_conf()
