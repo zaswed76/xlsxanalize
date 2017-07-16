@@ -31,7 +31,11 @@ class MainEditor(widgets.MainWidget):
     def __init__(self, editor, theme_editor):
         super().__init__()
         self.cfg = yaml.load(open(config_path))
-        self.cfg_copy = self.cfg.copy()
+        if self.cfg:
+            self.cfg_copy = self.cfg.copy()
+        else:
+            self.cfg = dict()
+            self.cfg_copy = self.cfg.copy()
         self.resize(400, 600)
         self.theme_editor = theme_editor
         self.editor = editor
@@ -63,8 +67,12 @@ class MainEditor(widgets.MainWidget):
             self.report_file)
 
     def get_message(self, file_path, bar_report_path):
+        if not file_path:
+            ms_text = "калькулятор бара отсутствует"
+        if not bar_report_path:
+            theme = "отчёт отсутствует"
         if not file_path or not bar_report_path:
-            return "", ""
+            return ms_text, theme
 
         parser = xlsx_parser.Parser(file_path, bar_report_path)
         xlsxData = xlsx_data.XlxsDada(parser)
@@ -75,8 +83,14 @@ class MainEditor(widgets.MainWidget):
         return ms_text, theme
 
     def show_text(self):
-        file_path = self.cfg["calc_file"]
-        bar_report_path = service.report(self.cfg["reports_dir"])
+        try:
+            file_path = self.cfg["calc_file"]
+        except KeyError:
+            ms_text = "none"
+        try:
+            bar_report_path = service.report(self.cfg["reports_dir"])
+        except KeyError:
+            theme = "none"
 
         try:
             ms_text, theme = self.get_message(file_path, bar_report_path)
