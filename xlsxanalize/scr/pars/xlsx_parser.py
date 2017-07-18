@@ -14,6 +14,7 @@ class Parser:
     TOTAL_INCOME = ("Приход", 8)
     ALL_EXPENSES = ("Расход", 8)
     TOTAL_IN_SAFE = ("имя расхода", 8)
+    THEME = (0, 1)
 
     fields = {
         "z_report": Z_REPORT,
@@ -76,7 +77,11 @@ class Parser:
         return {"expense": lst, "salary": salary_lst}
 
     def theme(self):
-        return self.report_df.iloc[0][1]
+        theme = self.report_df.iloc[self.THEME[0]][self.THEME[1]]
+        if not pd.isnull(theme):
+            return theme
+        else:
+            return None
 
     def _theme_test(self):
         return self.report_df.iloc[0][1]
