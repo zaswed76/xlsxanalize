@@ -16,6 +16,9 @@
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(213, 213, 213);</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
@@ -36,43 +39,56 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QPushButton" name="report_dir_btn">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
+    <widget class="QGroupBox" name="reports_box">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: italic 12pt &quot;Source Sans Pro&quot;;
+      <string notr="true">font: italic 10pt &quot;Source Sans Pro&quot;;
+</string>
+     </property>
+     <property name="title">
+      <string>выбрать каталог с отчётами</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="report_dir_btn">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: italic 12pt &quot;Source Sans Pro&quot;;
 text-align: left;</string>
-     </property>
-     <property name="text">
-      <string>отчёты каталог</string>
-     </property>
-     <property name="flat">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="report_file">
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font: italic 12pt &quot;Source Sans Pro&quot;;
+        </property>
+        <property name="text">
+         <string>отчёты каталог</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="report_file">
+        <property name="styleSheet">
+         <string notr="true">font: italic 12pt &quot;Source Sans Pro&quot;;
 text-align: left;</string>
-     </property>
-     <property name="text">
-      <string>файл отчёта</string>
-     </property>
-     <property name="flat">
-      <bool>true</bool>
-     </property>
+        </property>
+        <property name="text">
+         <string> файл отчёта</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

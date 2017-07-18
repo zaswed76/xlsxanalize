@@ -10,7 +10,7 @@ from scr.text import mess
 from xlsxanalize.scr.gui import widgets
 from xlsxanalize.scr import service
 
-actions_names = ["undo.png", "redo.png", "SPACER", "send2.png", "setting.png"]
+actions_names = ["undo.png", "redo.png", "SPACER", "send2.png", "show_setting_wind.png"]
 ui_dir = "../gui/ui"
 config_path = "../etc/config.yaml"
 
@@ -58,13 +58,11 @@ class MainEditor(widgets.MainWidget):
             self.ok_set)
 
         self.set_widg.report_dir_btn.clicked.connect(
-            self.report_chooce_dir)
+            self.report_choose_dir)
 
         self.set_widg.calc_file_btn.clicked.connect(
             self.calc_choos_file)
 
-        self.set_widg.report_file.clicked.connect(
-            self.report_file)
 
     def get_message(self, file_path, bar_report_path):
         if not file_path:
@@ -83,26 +81,19 @@ class MainEditor(widgets.MainWidget):
         return ms_text, theme
 
     def show_text(self):
-        try:
-            file_path = self.cfg["calc_file"]
-        except KeyError:
-            ms_text = "none"
-        try:
-            bar_report_path = service.report(self.cfg["reports_dir"])
-        except KeyError:
-            theme = "none"
+        file_path = self.cfg["calc_file"]
 
-        try:
-            ms_text, theme = self.get_message(file_path, bar_report_path)
-        except:
-            ms_text, theme = ("none", "none")
+        bar_report_path = service.report(self.cfg["reports_dir"])
+
+
+
+        ms_text, theme = self.get_message(file_path, bar_report_path)
+
         theme_editor.setText(str(theme))
         editor.setHtml(ms_text)
 
 
-    def setting_set_conf(self):
-        self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
-        self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
+
 
     def close_set(self):
         self.cfg_copy.update(self.cfg)
@@ -120,11 +111,12 @@ class MainEditor(widgets.MainWidget):
             self.cfg_copy["report_file"] = f
             self.set_widg.report_file.setText(f)
 
-    def report_chooce_dir(self):
+    def report_choose_dir(self):
         directory = self.choose_dir()
         if directory:
             self.cfg_copy["reports_dir"] = directory
             self.set_widg.report_dir_btn.setText(directory)
+            self.set_widg.report_file.setText(service.report(directory))
 
 
     def calc_choos_file(self):
@@ -149,9 +141,14 @@ class MainEditor(widgets.MainWidget):
     def send2(self):
         print("send")
 
-    def setting(self):
+    def show_setting_wind(self):
         self.setting_set_conf()
         self.set_widg.show()
+
+    def setting_set_conf(self):
+        self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
+        self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
+        self.set_widg.report_file.setText(service.report(self.cfg["reports_dir"]))
 
     def save_conf(self, cfg):
         with open(config_path, 'w') as f:
