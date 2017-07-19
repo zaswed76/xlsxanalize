@@ -1,18 +1,28 @@
 import datetime
 import re
 
+
 class Date:
     def __init__(self, date=None):
-        self.date = date
+        self._valid = None
+        self.line = date
+        try:
+            self.date = datetime.datetime.strptime(date, "%d.%m.%Y").date()
+            self._valid = True
+        except ValueError:
+            self._valid = False
+            self.date = None
+
+    @property
+    def valid(self):
+        return self._valid
 
     def __str__(self):
-        return self.date
-
-    def valide(self):
-        return self.date_form(self.date_form(self.date, "%d.%m.%Y"), "%d.%m.%Y")
+        return str(self.date)
 
     def date_form(self, d, f):
-        return datetime.datetime.strptime(self.date, f)
+        return
+
 
 class Date_Pars:
     PAT_DATA = re.compile("\d{2}[-./,]\d{2}[-./,]\d{2,4}")
@@ -22,17 +32,13 @@ class Date_Pars:
     PAT_FORMAT_DATA = "%d.%m.%Y"
 
     def __init__(self):
-        self.begin = Date()
-        self.end = Date()
+        self.begin = None
+        self.end = None
         self.time = None
-
-
-
 
     @staticmethod
     def del_space(line):
         return "".join(line.split())
-
 
     def data_pars(self, line):
         line = Date_Pars.del_space(line)
@@ -46,7 +52,6 @@ class Date_Pars:
             if res_time:
                 self.time = re.findall(Date_Pars.PAT_TIME_WORD, res_time[0])[0]
 
-
     @staticmethod
     def valid_date(data_lst):
         r = []
@@ -54,7 +59,7 @@ class Date_Pars:
             print(d)
             try:
                 d = datetime.datetime.strptime(d,
-                                           Date_Pars.PAT_FORMAT_DATA)
+                                               Date_Pars.PAT_FORMAT_DATA)
             except ValueError:
                 r.append((d, False))
             else:
@@ -63,10 +68,14 @@ class Date_Pars:
 
 
 if __name__ == '__main__':
-    s = "29.07.2017-30.07.2017,444  (24)"
+    s = "19.07.2017-30.07.2017  (24)"
     pd = Date_Pars()
     pd.data_pars(s)
-    print(pd.begin.valide(), pd.end, pd.time)
+    d = pd.end.date - pd.begin.date
+    now = datetime.datetime.now()
+    print(d == datetime.timedelta(days=1))
+    print(now.date() == pd.begin.date)
+    print(now, pd.begin.date)
 
 
 
@@ -76,4 +85,3 @@ if __name__ == '__main__':
 # d = datetime.datetime.strptime(data_lst[0], "%d.%m.%Y")
 # print(d)
 # print(datetime.datetime.strftime(d, "%d.%m.%Y"))
-
