@@ -84,7 +84,10 @@ class Parser:
             return None
 
     def _theme_test(self):
-        return self.report_df.iloc[0][1]
+        for line in self.report_df.values:
+            for i in line:
+                if not pd.isnull(i):
+                    print(i)
 
 
 if __name__ == '__main__':
@@ -97,3 +100,5 @@ if __name__ == '__main__':
 
     pars = Parser(file_path, bar_report_path)
     print(pars._theme_test())
+
+    s = r"C:\Users\Cassa\Desktop\Serg\project\xlsxanalize\xlsxanalize\scr\data\reports"
