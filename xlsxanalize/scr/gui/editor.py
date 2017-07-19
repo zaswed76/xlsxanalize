@@ -65,13 +65,6 @@ class MainEditor(widgets.MainWidget):
 
 
     def get_message(self, file_path, bar_report_path):
-        if not file_path:
-            ms_text = "калькулятор бара отсутствует"
-        if not bar_report_path:
-            theme = "отчёт отсутствует"
-        if not file_path or not bar_report_path:
-            return ms_text, theme
-
         parser = xlsx_parser.Parser(file_path, bar_report_path)
         xlsxData = xlsx_data.XlxsDada(parser)
         ms = mess.Message("./", "mess.html", xlsxData)
@@ -82,17 +75,19 @@ class MainEditor(widgets.MainWidget):
 
     def show_text(self):
         file_path = self.cfg["calc_file"]
-
+        if not os.path.isfile(file_path):
+            ms_text = "калькулятор бара отсутствует"
+            editor.setHtml(ms_text)
+            return
         bar_report_path = service.report(self.cfg["reports_dir"])
-
-
+        if not os.path.isfile(bar_report_path):
+            theme = "отчёт отсутствует"
+            theme_editor.setText(str(theme))
+            return
 
         ms_text, theme = self.get_message(file_path, bar_report_path)
-
         theme_editor.setText(str(theme))
         editor.setHtml(ms_text)
-
-
 
 
     def close_set(self):

@@ -11,7 +11,7 @@ def report(directory):
     try:
         file = max(file_lst)[1]
     except ValueError:
-        file = None
+        file = ""
     return file
 if __name__ == '__main__':
     print(report(r"C:\Users\Cassa\Desktop\Отчёты"))
