@@ -73,6 +73,7 @@ class MainEditor(widgets.MainWidget):
         theme = ms.theme()
         return ms_text, theme
 
+
     def show_text(self):
         file_path = self.cfg["calc_file"]
         if not os.path.isfile(file_path):

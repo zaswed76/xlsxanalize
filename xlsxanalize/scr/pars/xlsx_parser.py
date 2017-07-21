@@ -3,6 +3,8 @@ import re
 
 import pandas as pd
 
+from scr.pars import data_pars
+
 
 class Parser:
     Z_REPORT = ("Приход", 1)
@@ -77,7 +79,13 @@ class Parser:
         return {"expense": lst, "salary": salary_lst}
 
     def theme(self):
+        dp = data_pars.Date_Pars()
         theme = self.report_df.iloc[self.THEME[0]][self.THEME[1]]
+        dp.data_pars(theme)
+        print(dp.begin)
+        print(dp.end)
+        print(dp.time)
+
         if not pd.isnull(theme):
             return theme
         else:
@@ -99,6 +107,6 @@ if __name__ == '__main__':
     bar_report_path = os.path.join(DATA_DIR, report_path_name)
 
     pars = Parser(file_path, bar_report_path)
-    print(pars._theme_test())
+    pars.theme()
 
     s = r"C:\Users\Cassa\Desktop\Serg\project\xlsxanalize\xlsxanalize\scr\data\reports"
