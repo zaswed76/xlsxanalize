@@ -20,11 +20,12 @@ class Editor(QtWidgets.QTextEdit):
         super().__init__()
 
 
-class ThemeEditor(QtWidgets.QLineEdit):
+class ThemeEditor(QtWidgets.QTextEdit):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setAlignment(QtCore.Qt.AlignLeft)
-        self.setTextMargins(15, 0, 0, 0)
+        self.setMaximumHeight(35)
+
 
 
 class MainEditor(widgets.MainWidget):
@@ -65,10 +66,14 @@ class MainEditor(widgets.MainWidget):
 
 
     def get_message(self, file_path, bar_report_path):
+
         parser = xlsx_parser.Parser(file_path, bar_report_path)
+
         xlsxData = xlsx_data.XlxsDada(parser)
-        ms = mess.Message("./", "mess.html", xlsxData)
+
+        ms = mess.Message("../text", "mess.html", "theme.html", xlsxData)
         ms.register_xlsx_data(*xlsx_data_list)
+        ms.create_theme_data()
         ms_text = ms.text()
         theme = ms.theme()
         return ms_text, theme
@@ -83,11 +88,12 @@ class MainEditor(widgets.MainWidget):
         bar_report_path = service.report(self.cfg["reports_dir"])
         if not os.path.isfile(bar_report_path):
             theme = "отчёт отсутствует"
-            theme_editor.setText(str(theme))
+            theme_editor.setText(theme)
             return
 
         ms_text, theme = self.get_message(file_path, bar_report_path)
-        theme_editor.setText(str(theme))
+
+        theme_editor.setHtml(theme)
         editor.setHtml(ms_text)
 
 
@@ -161,7 +167,7 @@ if __name__ == '__main__':
     xlsx_data_list = ['add_income_mess', 'admin_income', 'all_expenses',
                       'bar_income', 'change_money', 'change_money_expenses',
                       'expenses_mess', 'salary_mess', 'total_in_safe',
-                      'total_income', 'z_report', "theme"]
+                      'total_income', 'z_report']
 
 
 
@@ -172,8 +178,8 @@ if __name__ == '__main__':
 
     editor = Editor()
     main = MainEditor(editor, theme_editor)
-
-
+    #
+    #
     main.show()
     main.show_text()
     sys.exit(app.exec_())

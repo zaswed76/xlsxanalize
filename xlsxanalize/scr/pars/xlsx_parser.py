@@ -33,7 +33,6 @@ class Parser:
     SALARY_PAT = re.compile(r"аванс|зарплата|зп.", flags=re.IGNORECASE)
 
     def __init__(self, file_path, bar_report_path):
-
         if os.path.isfile(file_path):
             self.file_path = file_path
         else:
@@ -50,6 +49,7 @@ class Parser:
 
 
         self.report_df = self.load_file(self.bar_report_path)
+        print(self.bar_report_path)
 
     def load_file(self, file):
         try:
@@ -79,17 +79,24 @@ class Parser:
         return {"expense": lst, "salary": salary_lst}
 
     def theme(self):
+        d = dict()
         dp = data_pars.Date_Pars()
         theme = self.report_df.iloc[self.THEME[0]][self.THEME[1]]
         dp.data_pars(theme)
-        print(dp.begin)
-        print(dp.end)
-        print(dp.time)
 
-        if not pd.isnull(theme):
-            return theme
+        d["begin_date"] = dp.begin.text
+        d["end_date"] = dp.end.text
+        d["time"] = dp.time
+
+        if dp.dates_valid_flag:
+            d["begin_valid"] = dp.begin.valid
+            d["end_valid"] = dp.end.valid
         else:
-            return None
+            d["begin_valid"] = False
+            d["end_valid"] = False
+        d["time_valid"] = True
+        # print(dp.dates_valid_flag, "dates_valid_flag")
+        return d
 
     def _theme_test(self):
         for line in self.report_df.values:
@@ -99,14 +106,15 @@ class Parser:
 
 
 if __name__ == '__main__':
-    DATA_DIR = "../data"
-    file_name = 'калькулятор бара отчет.xlsx'
-    file_path = os.path.join(DATA_DIR, file_name)
-
-    report_path_name = "12.07-13.07.2017 (сутки) отчет Бар лесной .xlsx"
-    bar_report_path = os.path.join(DATA_DIR, report_path_name)
-
-    pars = Parser(file_path, bar_report_path)
-    pars.theme()
-
-    s = r"C:\Users\Cassa\Desktop\Serg\project\xlsxanalize\xlsxanalize\scr\data\reports"
+    pass
+    # DATA_DIR = "../data"
+    # file_name = 'калькулятор бара отчет.xlsx'
+    # file_path = os.path.join(DATA_DIR, file_name)
+    #
+    # report_path_name = "12.07-13.07.2017 (сутки) отчет Бар лесной .xlsx"
+    # bar_report_path = os.path.join(DATA_DIR, report_path_name)
+    #
+    # pars = Parser(file_path, bar_report_path)
+    # pars.theme()
+    #
+    # s = r"C:\Users\Cassa\Desktop\Serg\project\xlsxanalize\xlsxanalize\scr\data\reports"
