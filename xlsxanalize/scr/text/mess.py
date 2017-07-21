@@ -8,6 +8,7 @@ from xlsxanalize.scr.text import xlsx_data
 class Message:
     def __init__(self, templates_dir, template_file, xlsxdata):
         self.xlsxdata = xlsxdata
+        print(template_file, 555)
         self.env = Environment(loader=FileSystemLoader(templates_dir))
         self.template = self.env.get_template(template_file)
         self.xlsx_data = dict()
