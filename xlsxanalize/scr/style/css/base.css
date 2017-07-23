@@ -32,6 +32,14 @@ ThemeEditor {
 
 }
 
+AttachWidget {
+    background-color: #e8e8e8;
+    border-bottom: 1px solid #398ebb;
+    border-top: none;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+}
+
 Tool {
     border-bottom: none;
     border-top: none;
@@ -46,4 +54,8 @@ QMainWindow {
     border-left: none;
     border-right: none;
 
+}
+
+QPushButton#file_btn {
+    background-color: #398ebb;
 }

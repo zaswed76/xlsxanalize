@@ -75,7 +75,7 @@ if __name__ == '__main__':
     now = datetime.datetime.now()
     print(d == datetime.timedelta(days=1))
     print(now.date() == pd.begin.date)
-    print(now, pd.begin.date)
+    print(now.date() - pd.begin.date)
 
 
 

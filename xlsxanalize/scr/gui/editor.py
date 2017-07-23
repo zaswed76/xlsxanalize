@@ -10,7 +10,8 @@ from scr.text import mess
 from xlsxanalize.scr.gui import widgets
 from xlsxanalize.scr import service
 
-actions_names = ["undo.png", "redo.png", "SPACER", "send2.png", "show_setting_wind.png"]
+actions_names = ["undo.png", "redo.png", "attach_file",
+                 "SPACER", "send2.png", "show_setting_wind.png"]
 ui_dir = "../gui/ui"
 config_path = "../etc/config.yaml"
 
@@ -28,6 +29,8 @@ class ThemeEditor(QtWidgets.QTextEdit):
 
 
 
+
+
 class MainEditor(widgets.MainWidget):
     def __init__(self, editor, theme_editor):
         super().__init__()
@@ -40,6 +43,7 @@ class MainEditor(widgets.MainWidget):
         self.resize(400, 600)
         self.theme_editor = theme_editor
         self.editor = editor
+        self.attach_widget = AttachWidget()
 
         self.load_style_sheet("base")
         self.tool = widgets.Tool(self, 26, self.tool_actions(actions_names))
@@ -47,6 +51,7 @@ class MainEditor(widgets.MainWidget):
 
         self.center_box.addWidget(self.theme_editor)
         self.center_box.addWidget(self.editor)
+        self.center_box.addWidget(self.attach_widget)
 
         self.set_widg = uic.loadUi(
             os.path.join(ui_dir, "setting.ui"))
@@ -155,6 +160,9 @@ class MainEditor(widgets.MainWidget):
     def save_conf(self, cfg):
         with open(config_path, 'w') as f:
             yaml.dump(cfg, f, default_flow_style=False)
+
+    def attach_file(self):
+        print("attach_file")
 
 
 

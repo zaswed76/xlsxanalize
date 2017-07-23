@@ -1,6 +1,5 @@
-calc_file: "C:/Users/Cassa/Desktop/Serg/project/xlsxanalize/xlsxanalize/scr/data/\u043A\
-  \u0430\u043B\u044C\u043A\u0443\u043B\u044F\u0442\u043E\u0440 \u0431\u0430\u0440\u0430\
-  \ \u043E\u0442\u0447\u0435\u0442.xlsx"
+calc_file: "D:/0SYNC/Serg/pyproject/xlsxanalize/xlsxanalize/scr/data/\u043A\u0430\u043B\
+  \u044C\u043A\u0443\u043B\u044F\u0442\u043E\u0440 \u0431\u0430\u0440\u0430 \u043E\
+  \u0442\u0447\u0435\u0442.xlsx"
 report_file: ''
-reports_dir: "C:/Users/Cassa/Desktop/Serg/\u041E\u0442\u0447\u0451\u0442\u044B - \u043A\
-  \u043E\u043F\u0438\u044F"
+reports_dir: D:/0SYNC/Serg/pyproject/xlsxanalize/xlsxanalize/scr/data/reports

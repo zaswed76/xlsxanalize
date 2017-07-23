@@ -10,8 +10,12 @@ class Date:
             self.date = datetime.datetime.strptime(date, "%d.%m.%Y").date()
             self._valid = True
         except ValueError:
-            self._valid = False
-            self.date = None
+            try:
+                self.date = datetime.datetime.strptime(date, "%d.%m.%y").date()
+                self._valid = True
+            except ValueError:
+                self._valid = False
+                self.date = None
 
     @property
     def valid(self):
@@ -27,7 +31,7 @@ class Time:
 
     def __init__(self, time):
         self._valid = True
-        print(time)
+
         if time is not None:
             time = time.lower()
             if time.isdigit() and 49 > int(time) > 0:
@@ -72,6 +76,12 @@ class Time:
     def __str__(self):
         return str(self.time)
 
+    def __repr__(self):
+        return str(self.time)
+
+    def __eq__(self, other):
+        return self.num == other.num
+
 
 class Date_Pars:
     PAT_DATA = re.compile("\d{2}[-./,]\d{2}[-./,]\d{2,4}")
@@ -87,6 +97,12 @@ class Date_Pars:
         self.end = None
         self.time = None
         self._dates_valid_flag = True
+
+    def __eq__(self, other):
+        beg = self.begin.date == other.begin.date
+        end = self.end.date == other.end.date
+        time = self.time.num == other.time.num
+        return all([beg, end, time])
 
     @property
     def dates_valid_flag(self):
@@ -105,11 +121,12 @@ class Date_Pars:
     def data_pars(self, line):
         line = Date_Pars.del_space(line)
         res_data = re.findall(Date_Pars.PAT_DATA, line)
+
         if not res_data:
             return dict()
         else:
             res_data = [re.sub(Date_Pars.DATA_DEL_PAT, ".", d) for d in res_data]
-            print(res_data)
+
             self.begin, self.end = (Date(res_data[0]), Date(res_data[1]))
             res_time = re.findall(Date_Pars.PAT_TIME, line)
             if res_time:
@@ -123,11 +140,14 @@ class Date_Pars:
 
 
 if __name__ == '__main__':
-    s = "20.07.2017-21.07.2017  (Сутки)"
-    q ="28.02.17-01.03.17 (сутки)"
+    s = "28.02.2017-29.02.2017  (24)"
+    q = "28.02.17-29.02.17 (сутки)"
     pd = Date_Pars()
-    pd.data_pars(q)
-    print(pd.begin)
+    pd.data_pars(s)
+    pd2 = Date_Pars()
+    pd2.data_pars(q)
+    print(pd == pd2)
+
 
 
 

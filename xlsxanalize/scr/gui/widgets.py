@@ -98,6 +98,31 @@ class MainWidget(QtWidgets.QMainWindow):
         QtWidgets.QApplication.instance().setStyleSheet(styleSheet)
 
 
+class AttachFile(QtWidgets.QFrame):
+    def __init__(self, file_name):
+        super().__init__()
+        self.box = QtWidgets.QHBoxLayout()
+
+        self.file_butn = QtWidgets.QPushButton()
+        self.file_butn.setObjectName("file_btn")
+        self.del_file = QtWidgets.QPushButton()
+        self.del_file.setObjectName("del_file")
+        self.box.addWidget(self.file_butn)
+        self.box.addWidget(self.del_file)
+
+        self.file_butn.setText(file_name)
+
+
+
+class AttachWidget(QtWidgets.QFrame):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setMinimumHeight(40)
+
+
+    def add_file(self, name_text):
+        pass
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     main = MainWidget()
