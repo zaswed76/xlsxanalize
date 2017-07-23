@@ -58,4 +58,12 @@ QMainWindow {
 
 QPushButton#file_btn {
     background-color: #398ebb;
+    font-family: Helvetica;
+    font-weight: bold;
+    font-size: 12pt;
+    color: #2b2b2b;
+}
+
+QPushButton#del_file {
+    image: url(./resource/icons/del_file.png);
 }

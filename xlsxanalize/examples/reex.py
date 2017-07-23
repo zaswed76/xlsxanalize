@@ -1,7 +1,7 @@
-import re
 
-pat = re.compile(r"аванс|зарплата", flags=re.IGNORECASE)
 
-line = "Лукьяненко зарПлата"
+pets = ["cat", "dog", "parrot", "hamster"]
 
-print(re.search(pat, line))
+s = "monkey"
+
+print([x for x in pets])

@@ -43,7 +43,8 @@ class MainEditor(widgets.MainWidget):
         self.resize(400, 600)
         self.theme_editor = theme_editor
         self.editor = editor
-        self.attach_widget = AttachWidget()
+        self.attach_widget = widgets.AttachWidget()
+        self.attach_widget.add_file("file1")
 
         self.load_style_sheet("base")
         self.tool = widgets.Tool(self, 26, self.tool_actions(actions_names))
