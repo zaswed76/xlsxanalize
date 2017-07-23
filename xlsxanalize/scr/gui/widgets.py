@@ -119,7 +119,7 @@ class AttachFile(QtWidgets.QFrame):
 class AttachWidget(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
-        self.setMinimumHeight(40)
+        self.setMinimumHeight(41)
         self.box = QtWidgets.QVBoxLayout(self)
         self.box.setSpacing(0)
         self.box.setContentsMargins(0, 0, 0, 0)
