@@ -119,6 +119,7 @@ class AttachFile(QtWidgets.QFrame):
 
     def close_file(self):
         self.close()
+        pass
 
 class AttachWidget(QtWidgets.QFrame):
     def __init__(self):
