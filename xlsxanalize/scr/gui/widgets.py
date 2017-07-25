@@ -99,23 +99,31 @@ class MainWidget(QtWidgets.QMainWindow):
 
 
 class AttachFile(QtWidgets.QFrame):
-    def __init__(self, file_name):
+    def __init__(self, parent, file_name):
         super().__init__()
+        self.parent = parent
         self.box = QtWidgets.QHBoxLayout(self)
-        self.box.setSpacing(25)
+        self.box.setSpacing(15)
         self.box.setContentsMargins(0, 0, 0, 0)
 
         self.file_butn = QtWidgets.QPushButton()
         self.file_butn.setObjectName("file_btn")
+
         self.del_file = QtWidgets.QPushButton()
         self.del_file.setIcon(QtGui.QIcon("../resource/icons/del_file.png"))
         self.del_file.setIconSize(QtCore.QSize(15, 15))
         self.del_file.setObjectName("del_file")
+
+        self.edit_file = QtWidgets.QPushButton()
+        self.edit_file.setIcon(QtGui.QIcon("../resource/icons/edit.png"))
+        self.edit_file.setIconSize(QtCore.QSize(20, 20))
+        self.edit_file.setObjectName("edit_file")
+
+
         self.box.addWidget(self.file_butn, stretch=1)
+        self.box.addWidget(self.edit_file)
         self.box.addWidget(self.del_file)
         self.file_butn.setText(file_name)
-
-        self.del_file.clicked.connect(self.close_file)
 
     def close_file(self):
         self.close()
@@ -124,15 +132,20 @@ class AttachFile(QtWidgets.QFrame):
 class AttachWidget(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
-        self.attach = []
+        self.attach = {}
         self.setMinimumHeight(41)
         self.box = QtWidgets.QVBoxLayout(self)
         self.box.setSpacing(0)
         self.box.setContentsMargins(0, 0, 0, 0)
 
-    def add_file(self, name_text):
-        self.attach.append(AttachFile(name_text))
-        self.box.addWidget(self.attach[-1])
+    def add_file(self, file_name):
+        name_text = os.path.basename(file_name)
+        self.attach[file_name] = (AttachFile(self, name_text))
+        self.box.addWidget(self.attach[file_name])
+        return self.attach[file_name].file_butn
+
+
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

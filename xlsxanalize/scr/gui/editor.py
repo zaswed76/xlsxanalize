@@ -71,6 +71,8 @@ class MainEditor(widgets.MainWidget):
             self.calc_choos_file)
 
 
+        self.attach_objects = {}
+
     def get_message(self, file_path, bar_report_path):
 
         parser = xlsx_parser.Parser(file_path, bar_report_path)
@@ -102,9 +104,17 @@ class MainEditor(widgets.MainWidget):
         theme_editor.setHtml(theme)
         editor.setHtml(ms_text)
 
-        self.attach_widget.add_file(os.path.basename(bar_report_path))
+        self.add_attach(bar_report_path)
 
 
+
+    def add_attach(self, file):
+        self.attach_objects[file] = self.attach_widget.add_file(file)
+        self.attach_objects[file].clicked.connect(partial(
+            self.press_attach, file))
+
+    def press_attach(self, file):
+        print("atttach", file)
 
     def close_set(self):
         self.cfg_copy.update(self.cfg)
@@ -169,7 +179,10 @@ class MainEditor(widgets.MainWidget):
         f = self.showDialog()
         if f:
             self.cfg_copy[f] = f
-            self.attach_widget.add_file(os.path.basename(f))
+            btn = self.attach_widget.add_file(os.path.basename(f))
+            btn.clicked.connect(
+            self.press_attach)
+
 
 
 

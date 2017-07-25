@@ -89,3 +89,8 @@ QPushButton#file_btn {
     border: none;
     padding: 0;
 }
+
+QPushButton#edit_file {
+    border: none;
+    padding: 0;
+}
