@@ -102,31 +102,36 @@ class AttachFile(QtWidgets.QFrame):
     def __init__(self, file_name):
         super().__init__()
         self.box = QtWidgets.QHBoxLayout(self)
-        self.box.setSpacing(0)
+        self.box.setSpacing(25)
         self.box.setContentsMargins(0, 0, 0, 0)
 
         self.file_butn = QtWidgets.QPushButton()
         self.file_butn.setObjectName("file_btn")
         self.del_file = QtWidgets.QPushButton()
+        self.del_file.setIcon(QtGui.QIcon("../resource/icons/del_file.png"))
+        self.del_file.setIconSize(QtCore.QSize(15, 15))
         self.del_file.setObjectName("del_file")
         self.box.addWidget(self.file_butn, stretch=1)
         self.box.addWidget(self.del_file)
-
         self.file_butn.setText(file_name)
 
+        self.del_file.clicked.connect(self.close_file)
 
+    def close_file(self):
+        self.close()
 
 class AttachWidget(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
+        self.attach = []
         self.setMinimumHeight(41)
         self.box = QtWidgets.QVBoxLayout(self)
         self.box.setSpacing(0)
         self.box.setContentsMargins(0, 0, 0, 0)
 
     def add_file(self, name_text):
-        attach = AttachFile("file")
-        self.box.addWidget(attach)
+        self.attach.append(AttachFile(name_text))
+        self.box.addWidget(self.attach[-1])
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

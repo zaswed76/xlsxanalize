@@ -8,7 +8,7 @@ QTextEdit {
     font-family: Helvetica;
     font-size: 12pt;
     color: #2b2b2b;
-    min-height: 500px;
+    /*min-height: 500px;*/
 
 
 
@@ -24,7 +24,7 @@ ThemeEditor {
     background-color: #f3ebdc;
     font-family: Helvetica;
     font-weight: bold;
-    font-size: 12pt;
+    font-size: 10pt;
     color: #2b2b2b;
     min-height: 10px;
     text-align: right;
@@ -56,14 +56,36 @@ QMainWindow {
 
 }
 
+AttachWidget {
+    border-bottom: none;
+    border-top: none;
+    border-left: 1px solid #34bb4d;
+    border-right: 1px solid #34bb4d;
+}
+
+AttachFile {
+    border-bottom: 1px solid #34bb4d;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
 QPushButton#file_btn {
-    background-color: #398ebb;
-    font-family: Helvetica;
-    font-weight: bold;
-    font-size: 12pt;
+    font-family: "Helvetica";
+    font-size: 10pt;
+    font: italic;
     color: #2b2b2b;
+
+    text-align: left;
+    /*text-indent: 10em;*/
 }
 
 QPushButton#del_file {
-    image: url(./resource/icons/del_file.png);
+    border: none;
+    padding: 0;
+}
+
+QPushButton#file_btn {
+    border: none;
+    padding: 0;
 }

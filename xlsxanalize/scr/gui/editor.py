@@ -25,7 +25,7 @@ class ThemeEditor(QtWidgets.QTextEdit):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setAlignment(QtCore.Qt.AlignLeft)
-        self.setMaximumHeight(35)
+        self.setMaximumHeight(45)
 
 
 
@@ -44,7 +44,7 @@ class MainEditor(widgets.MainWidget):
         self.theme_editor = theme_editor
         self.editor = editor
         self.attach_widget = widgets.AttachWidget()
-        self.attach_widget.add_file("file1")
+
 
         self.load_style_sheet("base")
         self.tool = widgets.Tool(self, 26, self.tool_actions(actions_names))
@@ -101,6 +101,9 @@ class MainEditor(widgets.MainWidget):
 
         theme_editor.setHtml(theme)
         editor.setHtml(ms_text)
+
+        self.attach_widget.add_file(os.path.basename(bar_report_path))
+
 
 
     def close_set(self):
@@ -163,7 +166,11 @@ class MainEditor(widgets.MainWidget):
             yaml.dump(cfg, f, default_flow_style=False)
 
     def attach_file(self):
-        print("attach_file")
+        f = self.showDialog()
+        if f:
+            self.cfg_copy[f] = f
+            self.attach_widget.add_file(os.path.basename(f))
+
 
 
 
@@ -187,8 +194,7 @@ if __name__ == '__main__':
 
     editor = Editor()
     main = MainEditor(editor, theme_editor)
-    #
-    #
+
     main.show()
     main.show_text()
     sys.exit(app.exec_())
