@@ -13,5 +13,19 @@ def report(directory):
     except ValueError:
         file = ""
     return file
+
+import os
+import shutil
+import tempfile
+
+
+
+def open_file(source):
+    ext = os.path.splitext(source)[1]
+    temp_xlsx = tempfile.mkstemp()[1] + ext
+    shutil.copy2(source, temp_xlsx)
+    os.startfile(temp_xlsx)
+
+
 if __name__ == '__main__':
     print(report(r"C:\Users\Cassa\Desktop\Отчёты"))

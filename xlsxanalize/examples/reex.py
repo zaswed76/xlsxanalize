@@ -1,7 +1,12 @@
 
+import os
+import shutil
+import tempfile
 
-pets = ["cat", "dog", "parrot", "hamster"]
 
-s = "monkey"
 
-print([x for x in pets])
+def open_file(source):
+    temp_xlsx = tempfile.mkstemp()[1] + ".xlsx"
+    shutil.copy2(source, temp_xlsx)
+    os.startfile(temp_xlsx)
+

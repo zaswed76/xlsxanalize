@@ -114,7 +114,7 @@ class MainEditor(widgets.MainWidget):
             self.press_attach, file))
 
     def press_attach(self, file):
-        print("atttach", file)
+        service.open_file(file)
 
     def close_set(self):
         self.cfg_copy.update(self.cfg)
@@ -180,8 +180,7 @@ class MainEditor(widgets.MainWidget):
         if f:
             self.cfg_copy[f] = f
             btn = self.attach_widget.add_file(os.path.basename(f))
-            btn.clicked.connect(
-            self.press_attach)
+            btn.clicked.connect(partial(self.press_attach, f))
 
 
 

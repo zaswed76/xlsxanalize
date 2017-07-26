@@ -102,26 +102,25 @@ class AttachFile(QtWidgets.QFrame):
     def __init__(self, parent, file_name):
         super().__init__()
         self.parent = parent
+        self.setMinimumHeight(38)
         self.box = QtWidgets.QHBoxLayout(self)
         self.box.setSpacing(15)
         self.box.setContentsMargins(0, 0, 0, 0)
 
         self.file_butn = QtWidgets.QPushButton()
         self.file_butn.setObjectName("file_btn")
+        self.file_butn.setCursor(QtCore.Qt.PointingHandCursor)
 
         self.del_file = QtWidgets.QPushButton()
         self.del_file.setIcon(QtGui.QIcon("../resource/icons/del_file.png"))
         self.del_file.setIconSize(QtCore.QSize(15, 15))
         self.del_file.setObjectName("del_file")
 
-        self.edit_file = QtWidgets.QPushButton()
-        self.edit_file.setIcon(QtGui.QIcon("../resource/icons/edit.png"))
-        self.edit_file.setIconSize(QtCore.QSize(20, 20))
-        self.edit_file.setObjectName("edit_file")
+        self.del_file.clicked.connect(self.close_file)
 
 
         self.box.addWidget(self.file_butn, stretch=1)
-        self.box.addWidget(self.edit_file)
+
         self.box.addWidget(self.del_file)
         self.file_butn.setText(file_name)
 
