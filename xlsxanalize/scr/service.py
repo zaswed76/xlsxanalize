@@ -12,6 +12,7 @@ def report(directory):
         file = max(file_lst)[1]
     except ValueError:
         file = ""
+    print(file)
     return file
 
 import os

@@ -102,6 +102,7 @@ class Parser:
             d["begin_valid"] = False
             d["end_valid"] = False
         d["time_valid"] = True
+        print(d)
         return d
 
     def _theme_test(self):

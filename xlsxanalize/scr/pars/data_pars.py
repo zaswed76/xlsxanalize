@@ -7,11 +7,13 @@ class Date:
         self._valid = None
         self.text = date
         try:
-            self.date = datetime.datetime.strptime(date, "%d.%m.%Y").date()
+            self.date = datetime.datetime.strptime(date,
+                                                   "%d.%m.%Y").date()
             self._valid = True
         except ValueError:
             try:
-                self.date = datetime.datetime.strptime(date, "%d.%m.%y").date()
+                self.date = datetime.datetime.strptime(date,
+                                                       "%d.%m.%y").date()
                 self._valid = True
             except ValueError:
                 self._valid = False
@@ -23,6 +25,11 @@ class Date:
 
     def __repr__(self):
         return str(self.date)
+
+    def __sub__(self, other):
+        if (isinstance(self.date, datetime.date) and
+                isinstance(other.date, datetime.date)):
+            return self.date - other.date
 
 
 class Time:
@@ -106,13 +113,18 @@ class Date_Pars:
 
     @property
     def dates_valid_flag(self):
-        d = self.end.date - self.begin.date
-        r1 = (d == datetime.timedelta(days=1) and self.time.num == 24)
-        print(r1, 1)
-        r2 = self.end.date == datetime.datetime.now()
-        print(r2)
+        d = self.end - self.begin
+        if (d == datetime.timedelta(days=1) and self.time.num == 24):
+            r1 = True
+        elif (d == datetime.timedelta(days=0) and self.time.num < 24):
+            r1 = True
+        else:
+            r1 = False
 
-        return self._dates_valid_flag
+
+
+        r2 = self.end.date == datetime.datetime.now().date()
+        return all([r1, r2])
 
     @staticmethod
     def del_space(line):
@@ -125,12 +137,14 @@ class Date_Pars:
         if not res_data:
             return dict()
         else:
-            res_data = [re.sub(Date_Pars.DATA_DEL_PAT, ".", d) for d in res_data]
-
-            self.begin, self.end = (Date(res_data[0]), Date(res_data[1]))
+            res_data = [re.sub(Date_Pars.DATA_DEL_PAT, ".", d) for d
+                        in res_data]
+            self.begin, self.end = (
+            Date(res_data[0]), Date(res_data[1]))
             res_time = re.findall(Date_Pars.PAT_TIME, line)
             if res_time:
-                time = re.findall(Date_Pars.PAT_TIME_WORD, res_time[0])[0]
+                time = \
+                re.findall(Date_Pars.PAT_TIME_WORD, res_time[0])[0]
                 self.time = Time(time)
             else:
                 self.time = Time(None)
@@ -140,13 +154,13 @@ class Date_Pars:
 
 
 if __name__ == '__main__':
-    s = "28.02.2017-29.02.2017  (24)"
-    q = "28.02.17-29.02.17 (сутки)"
+    s = "25.07.2017-26.07.17  (24)"
+
     pd = Date_Pars()
     pd.data_pars(s)
-    pd2 = Date_Pars()
-    pd2.data_pars(q)
-    print(pd == pd2)
+
+    print(pd.dates_valid_flag)
+
 
 
 

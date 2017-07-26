@@ -84,6 +84,7 @@ class MainEditor(widgets.MainWidget):
         ms.create_theme_data()
         ms_text = ms.text()
         theme = ms.theme()
+        print(theme)
         return ms_text, theme
 
 
