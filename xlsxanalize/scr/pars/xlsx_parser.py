@@ -5,6 +5,8 @@ import pandas as pd
 
 from scr.pars import data_pars
 
+# todo дата не совпадает с темой
+
 def path_to_theme(pth):
     base = os.path.splitext(os.path.basename(pth))[0]
     s = "12.07.17-13.07.17 (сутки) отчет Бар лесной"
@@ -91,6 +93,7 @@ class Parser:
         date_parser = data_pars.Date_Pars()
         date_parser.data_pars(theme)
         print(dp_path == date_parser, "111")
+        print(dp_path, date_parser)
         d["begin_date"] = date_parser.begin.text
         d["end_date"] = date_parser.end.text
         d["time"] = date_parser.time
