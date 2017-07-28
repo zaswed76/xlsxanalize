@@ -27,6 +27,17 @@ class ThemeEditor(QtWidgets.QTextEdit):
         self.setAlignment(QtCore.Qt.AlignLeft)
         self.setMaximumHeight(50)
         self.setMinimumHeight(50)
+        self.box = QtWidgets.QVBoxLayout(self)
+        self.box.setSpacing(0)
+        self.box.setContentsMargins(0, 0, 0, 0)
+
+    def add_error_mess(self, text=""):
+        if text:
+            text = "тема не соответствует имени файла"
+            self.box.addWidget(QtWidgets.QLabel(text),
+                           alignment=QtCore.Qt.AlignBottom | QtCore.Qt.AlignCenter)
+
+
 
 
 
@@ -86,8 +97,7 @@ class MainEditor(widgets.MainWidget):
         ms_text = ms.text()
         theme = ms.theme()
         path = parser.report_file
-        return ms_text, theme, path
-
+        return ms_text, theme, path, parser.error_theme_path
 
     def show_text(self):
         file_path = self.cfg["calc_file"]
@@ -101,10 +111,12 @@ class MainEditor(widgets.MainWidget):
             theme_editor.setText(theme)
             return
 
-        ms_text, theme, path = self.get_message(file_path, bar_report_path)
+        ms_text, theme, path, error_theme_path = self.get_message(
+            file_path, bar_report_path)
 
-        theme_editor.setHtml(theme)
-        editor.setHtml(ms_text)
+        self.theme_editor.setHtml(theme)
+        self.theme_editor.add_error_mess(error_theme_path)
+        self.editor.setHtml(ms_text)
         self.add_attach(path)
 
 

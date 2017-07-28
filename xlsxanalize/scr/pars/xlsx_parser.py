@@ -92,24 +92,24 @@ class Parser:
 
     def theme(self):
         path_line = path_to_theme(self.bar_report_path)
-        report_parser = self.parse(path_line)
+        self.report_parser = self.parse(path_line)
 
         d = dict()
         theme = self.report_df.iloc[self.THEME[0]][self.THEME[1]]
-        theme_parser = self.parse(theme)
-        d["begin_date"] = theme_parser.begin.text
-        d["end_date"] = theme_parser.end.text
-        d["time"] = theme_parser.time
+        self.theme_parser = self.parse(theme)
+        d["begin_date"] = self.theme_parser.begin.text
+        d["end_date"] = self.theme_parser.end.text
+        d["time"] = self.theme_parser.time
 
-        if theme_parser. \
+        if self.theme_parser. \
                 dates_valid_flag:
-            d["begin_valid"] = theme_parser.begin.valid
-            d["end_valid"] = theme_parser.end.valid
+            d["begin_valid"] = self.theme_parser.begin.valid
+            d["end_valid"] = self.theme_parser.end.valid
         else:
             d["begin_valid"] = False
             d["end_valid"] = False
         d["time_valid"] = True
-        d["valid_report_theme"] = report_parser == theme_parser
+
         return d
 
     @property
@@ -119,6 +119,10 @@ class Parser:
     @property
     def report_file(self):
         return self.bar_report_path
+
+    @property
+    def error_theme_path(self):
+        return self.theme_parser != self.report_parser
 
 
 
