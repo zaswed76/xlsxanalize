@@ -97,3 +97,8 @@ QPushButton#file_btn:hover {
 
     text-align: left;
 }
+
+QLabel#error_path_theme_label {
+    color: #d00c09;
+}
+

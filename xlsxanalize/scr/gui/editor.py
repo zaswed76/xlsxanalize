@@ -34,13 +34,12 @@ class ThemeEditor(QtWidgets.QTextEdit):
     def add_error_mess(self, text=""):
         if text:
             text = "тема не соответствует имени файла"
-            self.box.addWidget(QtWidgets.QLabel(text),
-                           alignment=QtCore.Qt.AlignBottom | QtCore.Qt.AlignCenter)
-
-
-
-
-
+            lb = QtWidgets.QLabel()
+            lb.setObjectName('error_path_theme_label')
+            lb.setText(text)
+            self.box.addWidget(lb,
+                               alignment=QtCore.Qt.AlignBottom
+                                         | QtCore.Qt.AlignCenter)
 
 
 class MainEditor(widgets.MainWidget):
@@ -57,9 +56,9 @@ class MainEditor(widgets.MainWidget):
         self.editor = editor
         self.attach_widget = widgets.AttachWidget()
 
-
         self.load_style_sheet("base")
-        self.tool = widgets.Tool(self, 26, self.tool_actions(actions_names))
+        self.tool = widgets.Tool(self, 26,
+                                 self.tool_actions(actions_names))
         self.init_tool_bar(self.tool)
 
         self.center_box.addWidget(self.theme_editor)
@@ -82,7 +81,6 @@ class MainEditor(widgets.MainWidget):
         self.set_widg.calc_file_btn.clicked.connect(
             self.calc_choos_file)
 
-
         self.attach_objects = {}
 
     def get_message(self, file_path, bar_report_path):
@@ -91,7 +89,8 @@ class MainEditor(widgets.MainWidget):
 
         xlsxData = xlsx_data.XlxsDada(parser)
 
-        ms = mess.Message("../text", "mess.html", "theme.html", xlsxData)
+        ms = mess.Message("../text", "mess.html", "theme.html",
+                          xlsxData)
         ms.register_xlsx_data(*xlsx_data_list)
         ms.create_theme_data()
         ms_text = ms.text()
@@ -116,10 +115,9 @@ class MainEditor(widgets.MainWidget):
 
         self.theme_editor.setHtml(theme)
         self.theme_editor.add_error_mess(error_theme_path)
+        # print(self.theme_editor.toHtml())
         self.editor.setHtml(ms_text)
         self.add_attach(path)
-
-
 
     def add_attach(self, file):
         self.attach_objects[file] = self.attach_widget.add_file(file)
@@ -150,8 +148,8 @@ class MainEditor(widgets.MainWidget):
         if directory:
             self.cfg_copy["reports_dir"] = directory
             self.set_widg.report_dir_btn.setText(directory)
-            self.set_widg.report_file.setText(service.report(directory))
-
+            self.set_widg.report_file.setText(
+                service.report(directory))
 
     def calc_choos_file(self):
         f = self.showDialog()
@@ -160,7 +158,9 @@ class MainEditor(widgets.MainWidget):
             self.set_widg.calc_file_btn.setText(f)
 
     def showDialog(self):
-        return QtWidgets.QFileDialog.getOpenFileName(self, 'Open file')[0]
+        return \
+            QtWidgets.QFileDialog.getOpenFileName(self, 'Open file')[
+                0]
 
     def choose_dir(self):
         return str(QtWidgets.QFileDialog.getExistingDirectory(
@@ -182,7 +182,8 @@ class MainEditor(widgets.MainWidget):
     def setting_set_conf(self):
         self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
         self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
-        self.set_widg.report_file.setText(service.report(self.cfg["reports_dir"]))
+        self.set_widg.report_file.setText(
+            service.report(self.cfg["reports_dir"]))
 
     def save_conf(self, cfg):
         with open(config_path, 'w') as f:
@@ -196,22 +197,16 @@ class MainEditor(widgets.MainWidget):
             btn.clicked.connect(partial(self.press_attach, f))
 
 
-
-
-
-
-
 if __name__ == '__main__':
     from xlsxanalize.scr.text import mess, xlsx_data
     from xlsxanalize.scr.pars import xlsx_parser
 
-    xlsx_data_list = ['add_income_mess', 'admin_income', 'all_expenses',
-                      'bar_income', 'change_money', 'change_money_expenses',
+    xlsx_data_list = ['add_income_mess', 'admin_income',
+                      'all_expenses',
+                      'bar_income', 'change_money',
+                      'change_money_expenses',
                       'expenses_mess', 'salary_mess', 'total_in_safe',
                       'total_income', 'z_report']
-
-
-
 
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet(open('../style/css/base.css', "r").read())
