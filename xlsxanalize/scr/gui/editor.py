@@ -25,7 +25,8 @@ class ThemeEditor(QtWidgets.QTextEdit):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setAlignment(QtCore.Qt.AlignLeft)
-        self.setMaximumHeight(45)
+        self.setMaximumHeight(50)
+        self.setMinimumHeight(50)
 
 
 
@@ -40,7 +41,7 @@ class MainEditor(widgets.MainWidget):
         else:
             self.cfg = dict()
             self.cfg_copy = self.cfg.copy()
-        self.resize(400, 600)
+        self.resize(450, 600)
         self.theme_editor = theme_editor
         self.editor = editor
         self.attach_widget = widgets.AttachWidget()
@@ -84,7 +85,8 @@ class MainEditor(widgets.MainWidget):
         ms.create_theme_data()
         ms_text = ms.text()
         theme = ms.theme()
-        return ms_text, theme
+        path = parser.report_file
+        return ms_text, theme, path
 
 
     def show_text(self):
@@ -99,12 +101,11 @@ class MainEditor(widgets.MainWidget):
             theme_editor.setText(theme)
             return
 
-        ms_text, theme = self.get_message(file_path, bar_report_path)
+        ms_text, theme, path = self.get_message(file_path, bar_report_path)
 
         theme_editor.setHtml(theme)
         editor.setHtml(ms_text)
-
-        self.add_attach(bar_report_path)
+        self.add_attach(path)
 
 
 

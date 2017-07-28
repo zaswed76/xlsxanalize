@@ -1,19 +1,27 @@
 
 import os
 
+from scr.pars import data_pars
+
 
 def report(directory):
     file_lst = []
+    dp_file_lst = []
     for root, dirs, files in os.walk(directory):
         for name in files:
+            dp = data_pars.Date_Pars()
+
             fullname = os.path.join(root, name)
+            dp.data_pars(fullname )
+            dp_file_lst.append(dp)
             file_lst.append((os.path.getctime(fullname), fullname))
     try:
         file = max(file_lst)[1]
     except ValueError:
         file = ""
-    print(file)
-    return file
+    s = max(dp_file_lst)
+
+    return s.line
 
 import os
 import shutil

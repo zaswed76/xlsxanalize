@@ -5,12 +5,13 @@ import pandas as pd
 
 from scr.pars import data_pars
 
+
 # todo дата не совпадает с темой
 
 def path_to_theme(pth):
     base = os.path.splitext(os.path.basename(pth))[0]
-    s = "12.07.17-13.07.17 (сутки) отчет Бар лесной"
     return base
+
 
 class Parser:
     Z_REPORT = ("Приход", 1)
@@ -36,13 +37,15 @@ class Parser:
         "total_in_safe": TOTAL_IN_SAFE
 
     }
-    SALARY_PAT = re.compile(r"аванс|зарплата|зп.", flags=re.IGNORECASE)
+    SALARY_PAT = re.compile(r"аванс|зарплата|зп.",
+                            flags=re.IGNORECASE)
 
     def __init__(self, file_path, bar_report_path):
         if os.path.isfile(file_path):
-            self.file_path = file_path
+            self._file_path = file_path
         else:
-            raise FileNotFoundError("файл - \n{}\n не найден".format(file_path))
+            raise FileNotFoundError(
+                "файл - \n{}\n не найден".format(file_path))
 
         if os.path.isfile(bar_report_path):
             self.bar_report_path = bar_report_path
@@ -52,7 +55,6 @@ class Parser:
                 "файл - \n{}\n не найден".format(bar_report_path))
 
         self.df1 = self.load_file(self.file_path)
-
 
         self.report_df = self.load_file(self.bar_report_path)
 
@@ -83,36 +85,41 @@ class Parser:
                     lst.append((name, self.df1["Расход"][n]))
         return {"expense": lst, "salary": salary_lst}
 
+    def parse(self, line):
+        dp = data_pars.Date_Pars()
+        dp.data_pars(line)
+        return dp
+
     def theme(self):
         path_line = path_to_theme(self.bar_report_path)
-        dp_path = data_pars.Date_Pars()
-        dp_path.data_pars(path_line)
+        report_parser = self.parse(path_line)
 
         d = dict()
         theme = self.report_df.iloc[self.THEME[0]][self.THEME[1]]
-        date_parser = data_pars.Date_Pars()
-        date_parser.data_pars(theme)
-        print(dp_path == date_parser, "111")
-        print(dp_path, date_parser)
-        d["begin_date"] = date_parser.begin.text
-        d["end_date"] = date_parser.end.text
-        d["time"] = date_parser.time
+        theme_parser = self.parse(theme)
+        d["begin_date"] = theme_parser.begin.text
+        d["end_date"] = theme_parser.end.text
+        d["time"] = theme_parser.time
 
-        if date_parser.dates_valid_flag:
-            d["begin_valid"] = date_parser.begin.valid
-            d["end_valid"] = date_parser.end.valid
+        if theme_parser. \
+                dates_valid_flag:
+            d["begin_valid"] = theme_parser.begin.valid
+            d["end_valid"] = theme_parser.end.valid
         else:
             d["begin_valid"] = False
             d["end_valid"] = False
         d["time_valid"] = True
-        print(d)
+        d["valid_report_theme"] = report_parser == theme_parser
         return d
 
-    def _theme_test(self):
-        for line in self.report_df.values:
-            for i in line:
-                if not pd.isnull(i):
-                    print(i)
+    @property
+    def file_path(self):
+        return self._file_path
+
+    @property
+    def report_file(self):
+        return self.bar_report_path
+
 
 
 if __name__ == '__main__':

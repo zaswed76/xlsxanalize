@@ -31,6 +31,10 @@ class Date:
                 isinstance(other.date, datetime.date)):
             return self.date - other.date
 
+    def __gt__(self, other):
+        if (isinstance(self.date, datetime.date) and
+                isinstance(other.date, datetime.date)):
+            return self.date > other.date
 
 class Time:
     time_str_12 = ["день", "ночь"]
@@ -131,6 +135,7 @@ class Date_Pars:
         return "".join(line.split())
 
     def data_pars(self, line):
+        self.line = line
         line = Date_Pars.del_space(line)
         res_data = re.findall(Date_Pars.PAT_DATA, line)
 
@@ -139,6 +144,7 @@ class Date_Pars:
         else:
             res_data = [re.sub(Date_Pars.DATA_DEL_PAT, ".", d) for d
                         in res_data]
+
             self.begin, self.end = (
             Date(res_data[0]), Date(res_data[1]))
             res_time = re.findall(Date_Pars.PAT_TIME, line)
@@ -151,6 +157,11 @@ class Date_Pars:
 
     def __str__(self):
         return str((self.begin, self.end, self.time))
+
+    def __gt__(self, other):
+        r =  self.end > other.end
+
+        return r
 
 
 if __name__ == '__main__':

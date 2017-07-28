@@ -1,12 +1,15 @@
 
-import os
-import shutil
-import tempfile
 
+class A:
+    def __init__(self, i):
+        self.i = i
 
+    def __gt__(self, other):
+        return self.i > other.i
 
-def open_file(source):
-    temp_xlsx = tempfile.mkstemp()[1] + ".xlsx"
-    shutil.copy2(source, temp_xlsx)
-    os.startfile(temp_xlsx)
+a1 = A(1)
+a2 = A(2)
+
+r = max([a1, a2])
+print(r.i)
 
