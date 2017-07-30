@@ -6,7 +6,7 @@ from functools import partial
 import yaml
 from PyQt5 import QtWidgets, uic, QtCore
 
-from scr.text import mess
+from scr.mail import mailpy
 from xlsxanalize.scr.gui import widgets
 from xlsxanalize.scr import service
 
@@ -16,30 +16,7 @@ ui_dir = "../gui/ui"
 config_path = "../etc/config.yaml"
 
 
-class Editor(QtWidgets.QTextEdit):
-    def __init__(self):
-        super().__init__()
 
-
-class ThemeEditor(QtWidgets.QTextEdit):
-    def __init__(self, *__args):
-        super().__init__(*__args)
-        self.setAlignment(QtCore.Qt.AlignLeft)
-        self.setMaximumHeight(50)
-        self.setMinimumHeight(50)
-        self.box = QtWidgets.QVBoxLayout(self)
-        self.box.setSpacing(0)
-        self.box.setContentsMargins(0, 0, 0, 0)
-
-    def add_error_mess(self, text=""):
-        if text:
-            text = "тема не соответствует имени файла"
-            lb = QtWidgets.QLabel()
-            lb.setObjectName('error_path_theme_label')
-            lb.setText(text)
-            self.box.addWidget(lb,
-                               alignment=QtCore.Qt.AlignBottom
-                                         | QtCore.Qt.AlignCenter)
 
 
 class MainEditor(widgets.MainWidget):
@@ -52,6 +29,7 @@ class MainEditor(widgets.MainWidget):
             self.cfg = dict()
             self.cfg_copy = self.cfg.copy()
         self.resize(450, 600)
+        self.usr_profile = widgets.UserProfile()
         self.theme_editor = theme_editor
         self.editor = editor
         self.attach_widget = widgets.AttachWidget()
@@ -61,6 +39,7 @@ class MainEditor(widgets.MainWidget):
                                  self.tool_actions(actions_names))
         self.init_tool_bar(self.tool)
 
+        self.center_box.addWidget(self.usr_profile)
         self.center_box.addWidget(self.theme_editor)
         self.center_box.addWidget(self.editor)
         self.center_box.addWidget(self.attach_widget)
@@ -101,8 +80,8 @@ class MainEditor(widgets.MainWidget):
     def show_text(self):
         file_path = self.cfg["calc_file"]
         if not os.path.isfile(file_path):
-            ms_text = "калькулятор бара отсутствует"
-            editor.setHtml(ms_text)
+            self.ms_text = "калькулятор бара отсутствует"
+            editor.setHtml(self.ms_text)
             return
         bar_report_path = service.report(self.cfg["reports_dir"])
         if not os.path.isfile(bar_report_path):
@@ -110,14 +89,22 @@ class MainEditor(widgets.MainWidget):
             theme_editor.setText(theme)
             return
 
-        ms_text, theme, path, error_theme_path = self.get_message(
+        self.ms_text, self.theme, path, error_theme_path = self.get_message(
             file_path, bar_report_path)
 
-        self.theme_editor.setHtml(theme)
+        self.theme_editor.setHtml(self.theme)
         self.theme_editor.add_error_mess(error_theme_path)
-        # print(self.theme_editor.toHtml())
-        self.editor.setHtml(ms_text)
+        self.editor.setHtml(self.ms_text)
         self.add_attach(path)
+
+    def send2(self):
+        # psw = "5422717fasad
+        # mymail = "zaswed76@gmail.com"
+        # tomail = "sergitland@gmail.com"
+        # theme = self.theme_editor.toPlainText()
+        # ms_text = self.editor.toHtml()
+        # mailpy.run_mail(mymail, [tomail], theme, ms_text, psw)
+        print("send")
 
     def add_attach(self, file):
         self.attach_objects[file] = self.attach_widget.add_file(file)
@@ -172,8 +159,7 @@ class MainEditor(widgets.MainWidget):
     def redo(self):
         print("redo")
 
-    def send2(self):
-        print("send")
+
 
     def show_setting_wind(self):
         self.setting_set_conf()
@@ -210,9 +196,8 @@ if __name__ == '__main__':
 
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet(open('../style/css/base.css', "r").read())
-    theme_editor = ThemeEditor()
-
-    editor = Editor()
+    theme_editor = widgets.ThemeEditor()
+    editor = widgets.Editor()
     main = MainEditor(editor, theme_editor)
 
     main.show()

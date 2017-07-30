@@ -11,6 +11,47 @@ from PyQt5.QtCore import QFile
 
 icon_dir = '../resource/icons'
 
+
+class UserProfile(QtWidgets.QComboBox):
+    def __init__(self):
+        super().__init__()
+        self.setEditable(True)
+
+class Recipients(QtWidgets.QTextEdit):
+    def __init__(self):
+        super().__init__()
+
+
+
+class AddressLabel(QtWidgets.QLabel):
+    def __init__(self):
+        super().__init__()
+
+class Editor(QtWidgets.QTextEdit):
+    def __init__(self):
+        super().__init__()
+
+
+class ThemeEditor(QtWidgets.QTextEdit):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        self.setAlignment(QtCore.Qt.AlignLeft)
+        self.setMaximumHeight(50)
+        self.setMinimumHeight(50)
+        self.box = QtWidgets.QVBoxLayout(self)
+        self.box.setSpacing(0)
+        self.box.setContentsMargins(0, 0, 0, 0)
+
+    def add_error_mess(self, text=""):
+        if text:
+            text = "тема не соответствует имени файла"
+            lb = QtWidgets.QLabel()
+            lb.setObjectName('error_path_theme_label')
+            lb.setText(text)
+            self.box.addWidget(lb,
+                               alignment=QtCore.Qt.AlignBottom
+                                         | QtCore.Qt.AlignCenter)
+
 class Status(QtWidgets.QStatusBar):
     def __init__(self, parent, height):
         super().__init__(parent)
