@@ -7,16 +7,25 @@ import yaml
 from PyQt5 import QtWidgets, uic, QtCore
 
 from scr.mail import mailpy
-from xlsxanalize.scr.gui import widgets
-from xlsxanalize.scr import service
+from scr.gui import widgets
+from scr import service
+from scr.pars import xlsx_parser
+from scr.text import xlsx_data, mess
+import sys
+from PyQt5 import QtWidgets
+from scr.gui import widgets
 
 actions_names = ["undo.png", "redo.png", "attach_file",
                  "SPACER", "send2.png", "show_setting_wind.png"]
 ui_dir = "../gui/ui"
 config_path = "../etc/config.yaml"
 
-
-
+xlsx_data_list = ['add_income_mess', 'admin_income',
+                  'all_expenses',
+                  'bar_income', 'change_money',
+                  'change_money_expenses',
+                  'expenses_mess', 'salary_mess', 'total_in_safe',
+                  'total_income', 'z_report']
 
 
 class MainEditor(widgets.MainWidget):
@@ -29,7 +38,7 @@ class MainEditor(widgets.MainWidget):
             self.cfg = dict()
             self.cfg_copy = self.cfg.copy()
         self.resize(450, 600)
-        self.usr_profile = widgets.UserProfile()
+        self.usr_profile = widgets.UserProfile(self.cfg_copy["users"])
         self.theme_editor = theme_editor
         self.editor = editor
         self.attach_widget = widgets.AttachWidget()
@@ -68,7 +77,9 @@ class MainEditor(widgets.MainWidget):
 
         xlsxData = xlsx_data.XlxsDada(parser)
 
-        ms = mess.Message("../text", "mess.html", "theme.html",
+        ms = mess.Message("../text",
+                          "mess.html",
+                          "theme.html",
                           xlsxData)
         ms.register_xlsx_data(*xlsx_data_list)
         ms.create_theme_data()
@@ -81,7 +92,7 @@ class MainEditor(widgets.MainWidget):
         file_path = self.cfg["calc_file"]
         if not os.path.isfile(file_path):
             self.ms_text = "калькулятор бара отсутствует"
-            editor.setHtml(self.ms_text)
+            self.editor.setHtml(self.ms_text)
             return
         bar_report_path = service.report(self.cfg["reports_dir"])
         if not os.path.isfile(bar_report_path):
@@ -159,14 +170,15 @@ class MainEditor(widgets.MainWidget):
     def redo(self):
         print("redo")
 
-
-
     def show_setting_wind(self):
         self.setting_set_conf()
+        print(555)
         self.set_widg.show()
 
     def setting_set_conf(self):
+
         self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
+
         self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
         self.set_widg.report_file.setText(
             service.report(self.cfg["reports_dir"]))
@@ -184,8 +196,8 @@ class MainEditor(widgets.MainWidget):
 
 
 if __name__ == '__main__':
-    from xlsxanalize.scr.text import mess, xlsx_data
-    from xlsxanalize.scr.pars import xlsx_parser
+
+
 
     xlsx_data_list = ['add_income_mess', 'admin_income',
                       'all_expenses',
@@ -203,3 +215,4 @@ if __name__ == '__main__':
     main.show()
     main.show_text()
     sys.exit(app.exec_())
+

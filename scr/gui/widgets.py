@@ -9,23 +9,44 @@ from functools import partial
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtCore import QFile
 
-icon_dir = '../resource/icons'
+icon_dir = '../scr/resource/icons'
+
+class AddUserBtn(QtWidgets.QPushButton):
+    def __init__(self, text):
+        super().__init__()
 
 
-class UserProfile(QtWidgets.QComboBox):
+        
+
+class Users(QtWidgets.QComboBox):
     def __init__(self):
         super().__init__()
         self.setEditable(True)
+
+
+class UserProfile(QtWidgets.QFrame):
+    def __init__(self, users: dict):
+        super().__init__()
+        self.box = QtWidgets.QHBoxLayout(self)
+        self.box.setContentsMargins(0, 0, 0, 0)
+        self.box.setSpacing(0)
+        self.users = Users()
+        self.box.addWidget(self.users)
+        self.users.addItems(users.keys())
+
+        self.add_user_btn = AddUserBtn("+")
+        self.box.addWidget(self.add_user_btn)
+
 
 class Recipients(QtWidgets.QTextEdit):
     def __init__(self):
         super().__init__()
 
 
-
 class AddressLabel(QtWidgets.QLabel):
     def __init__(self):
         super().__init__()
+
 
 class Editor(QtWidgets.QTextEdit):
     def __init__(self):
@@ -51,6 +72,7 @@ class ThemeEditor(QtWidgets.QTextEdit):
             self.box.addWidget(lb,
                                alignment=QtCore.Qt.AlignBottom
                                          | QtCore.Qt.AlignCenter)
+
 
 class Status(QtWidgets.QStatusBar):
     def __init__(self, parent, height):
@@ -104,8 +126,6 @@ class MainWidget(QtWidgets.QMainWindow):
         except Exception as er:
             print(er)
 
-
-
     def add_gui_sea(self, model_sea):
         self.center_box.addWidget(model_sea)
 
@@ -153,12 +173,12 @@ class AttachFile(QtWidgets.QFrame):
         self.file_butn.setCursor(QtCore.Qt.PointingHandCursor)
 
         self.del_file = QtWidgets.QPushButton()
-        self.del_file.setIcon(QtGui.QIcon("../resource/icons/del_file.png"))
+        self.del_file.setIcon(
+            QtGui.QIcon("../resource/icons/del_file.png"))
         self.del_file.setIconSize(QtCore.QSize(15, 15))
         self.del_file.setObjectName("del_file")
 
         self.del_file.clicked.connect(self.close_file)
-
 
         self.box.addWidget(self.file_butn, stretch=1)
 
@@ -183,8 +203,6 @@ class AttachWidget(QtWidgets.QFrame):
         self.attach[file_name] = (AttachFile(self, name_text))
         self.box.addWidget(self.attach[file_name])
         return self.attach[file_name].file_butn
-
-
 
 
 if __name__ == '__main__':

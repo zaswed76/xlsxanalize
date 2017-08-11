@@ -30,7 +30,6 @@ ThemeEditor {
     border-left: 1px solid #398ebb;
     border-right: 1px solid #398ebb;
     padding: 0;
-
     background-color: #f3ebdc;
     font-family: Helvetica;
     font-weight: bold;
@@ -112,3 +111,7 @@ QLabel#error_path_theme_label {
     color: #d00c09;
 }
 
+AddUserBtn {
+    image: url("F:/serg/projects/xlsxanalize/scr/resource/del_file.png");
+    background-color: #398ebb;
+}

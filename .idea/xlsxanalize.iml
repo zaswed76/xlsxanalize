@@ -2,8 +2,8 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/xlsxanalize" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/xlsxanalize/scr/gui" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/scr/gui" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/scr" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6.1 (F:\python\anaconda\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

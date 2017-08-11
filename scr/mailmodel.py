@@ -43,6 +43,7 @@ class UserPwd:
 
     @property
     def get_pwd(self):
+        print(self.mail_pwd, "3333")
         return self.mail_pwd
 
     def set_master_state(self, state):
@@ -56,6 +57,8 @@ class UserPwd:
                 return True
 
     def get_decode_pwd(self, key_mail):
+        p = self.user.get(key_mail)[0]
+        print(p, 333)
         return base64.standard_b64decode(self.user.get(key_mail)[0])
 
     def save_pwd(self, key_mail):
@@ -78,6 +81,6 @@ class UserPwd:
 
 if __name__ == '__main__':
     pwd = UserPwd()
-    print(pwd.get_master_pwd)
-    print(pwd.master_pwd)
-    print(pwd.user["zaswed76@gmail.com"])
+    pwd.set_pwd_in_file("zaswed76@gmail.com")
+    passw = pwd.get_pwd
+    pwd.save_pwd("zaswed76@gmail.com")
