@@ -9,14 +9,60 @@ from functools import partial
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtCore import QFile
 
-icon_dir = '../scr/resource/icons'
+icon_dir = '../resource/icons'
+
+_box_margin = (0, 0, 0, 0)
+_box_spacing = 10
+
+
+class Box(QtWidgets.QBoxLayout):
+    horizontal = QtWidgets.QBoxLayout.LeftToRight = 0
+    vertical = QtWidgets.QBoxLayout.TopToBottom = 2
+
+    def __init__(self, direction, parent=None,
+                 margin=_box_margin, spacing=_box_spacing):
+        """
+        :param direction: Box._horizontal \ Box._vertical
+        :param QWidget_parent: QWidget
+        :param margin: поле вокруг
+        :param spacing: интервал (шаг) между виджетами
+        """
+        super().__init__(direction, parent)
+        self.setDirection(direction)
+        self.setContentsMargins(*margin)
+        self.setSpacing(spacing)
+
+    def addWidget(self, QWidget, stretch=0, Qt_Alignment=None,
+                  Qt_AlignmentFlag=None, *args, **kwargs):
+        if self.direction() == Box.horizontal:
+            super().addWidget(QWidget, alignment=QtCore.Qt.AlignLeft)
+        elif self.direction() == Box.vertical:
+            super().addWidget(QWidget,
+                              alignment=QtCore.Qt.AlignCenter |
+                                        QtCore.Qt.AlignTop)
+
+
+class AddUserWindow(QtWidgets.QFrame):
+    def __init__(self):
+        super().__init__()
+        self.box = Box(Box.vertical, self)
+        self.user_line = QtWidgets.QLineEdit()
+        self.user_line.setObjectName("new_user")
+        self.user_line.setPlaceholderText("mail нового пользователя")
+
+        self.user_pasw = QtWidgets.QLineEdit()
+        self.user_pasw.setObjectName("new_user_pasw")
+        self.user_pasw.setPlaceholderText("пароль от почтового ящика")
+
+
+        self.box.addWidget(self.user_line)
+        self.box.addWidget(self.user_pasw)
+
 
 class AddUserBtn(QtWidgets.QPushButton):
-    def __init__(self, text):
+    def __init__(self):
         super().__init__()
 
-
-        
 
 class Users(QtWidgets.QComboBox):
     def __init__(self):
@@ -31,10 +77,14 @@ class UserProfile(QtWidgets.QFrame):
         self.box.setContentsMargins(0, 0, 0, 0)
         self.box.setSpacing(0)
         self.users = Users()
-        self.box.addWidget(self.users)
+        self.box.addWidget(self.users, stretch=1)
         self.users.addItems(users.keys())
 
-        self.add_user_btn = AddUserBtn("+")
+        self.add_user_btn = AddUserBtn()
+        self.add_user_btn.setObjectName("adduser")
+        self.add_user_btn.setIcon(
+            QtGui.QIcon("../resource/icons/useradd.png"))
+        self.add_user_btn.setIconSize(QtCore.QSize(15, 15))
         self.box.addWidget(self.add_user_btn)
 
 

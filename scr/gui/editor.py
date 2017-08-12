@@ -69,7 +69,22 @@ class MainEditor(widgets.MainWidget):
         self.set_widg.calc_file_btn.clicked.connect(
             self.calc_choos_file)
 
+        self.usr_profile.add_user_btn.clicked.connect(
+            self.add_user)
+
         self.attach_objects = {}
+
+    def add_user(self):
+        rect_base_w = self.geometry()
+        print(rect_base_w.left())
+        print(rect_base_w.width())
+        self.add_user_window = widgets.AddUserWindow()
+        self.add_user_window.setWindowModality(
+            QtCore.Qt.ApplicationModal)
+        self.add_user_window.move(rect_base_w.left(), rect_base_w.top())
+        self.add_user_window.setMinimumWidth(rect_base_w.width()-8)
+        self.add_user_window.show()
+
 
     def get_message(self, file_path, bar_report_path):
 

@@ -1,5 +1,38 @@
 
 
+QLineEdit#new_user {
+    font-family: Helvetica;
+    font-size: 10pt;
+    color: #2b2b2b;
+    min-width: 310px;
+    min-height: 32px;
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+}
+
+QLineEdit#new_user_pasw {
+    font-family: Helvetica;
+    font-size: 10pt;
+    color: #2b2b2b;
+    min-width: 310px;
+    min-height: 32px;
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+}
+
+Users  {
+    border-bottom: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    min-height: 25px;
+
+}
+
 UserProfile  {
     border-bottom: none;
     border-top: 1px solid #398ebb;
@@ -73,7 +106,7 @@ AttachWidget {
 }
 
 AttachFile {
-    border-bottom: 1px solid #34bb4d;
+    border-bottom: 1px solid #3a8fbb;
     border-top: none;
     border-left: none;
     border-right: none;
@@ -111,7 +144,9 @@ QLabel#error_path_theme_label {
     color: #d00c09;
 }
 
-AddUserBtn {
-    image: url("F:/serg/projects/xlsxanalize/scr/resource/del_file.png");
-    background-color: #398ebb;
-}
+AddUserBtn#adduser {
+    border-bottom: none;
+    border-top: none;
+    border-left: none;
+    border-right: none; }
+
