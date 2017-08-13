@@ -45,6 +45,7 @@ class Box(QtWidgets.QBoxLayout):
 class AddUserWindow(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("добавить нового пользователя")
         self.box = Box(Box.vertical, self)
         self.user_line = QtWidgets.QLineEdit()
         self.user_line.setObjectName("new_user")
@@ -53,10 +54,40 @@ class AddUserWindow(QtWidgets.QFrame):
         self.user_pasw = QtWidgets.QLineEdit()
         self.user_pasw.setObjectName("new_user_pasw")
         self.user_pasw.setPlaceholderText("пароль от почтового ящика")
+        self.user_pasw.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        self.master = QtWidgets.QLineEdit()
+        self.master.setObjectName("master")
+        self.master.setPlaceholderText("мастер пароль")
+        self.master.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        self.master_2 = QtWidgets.QLineEdit()
+        self.master_2.setObjectName("master_2")
+        self.master_2.setPlaceholderText("подтвердить мастер пароль")
+        self.master_2.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        self.check_pwd = QtWidgets.QCheckBox("показывать пароль")
+        self.check_pwd.setObjectName("check_pwd")
+        self.check_pwd.stateChanged.connect(self.change_pwd_visible)
 
 
         self.box.addWidget(self.user_line)
         self.box.addWidget(self.user_pasw)
+        self.box.addWidget(self.master)
+        self.box.addWidget(self.master_2)
+        self.box.addWidget(self.check_pwd)
+
+    def change_pwd_visible(self, state):
+        if state:
+            self.user_pasw.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.master.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.master_2.setEchoMode(QtWidgets.QLineEdit.Normal)
+        else:
+            self.user_pasw.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.master.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.master_2.setEchoMode(QtWidgets.QLineEdit.Password)
+
+
 
 
 class AddUserBtn(QtWidgets.QPushButton):

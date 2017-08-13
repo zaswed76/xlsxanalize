@@ -76,8 +76,6 @@ class MainEditor(widgets.MainWidget):
 
     def add_user(self):
         rect_base_w = self.geometry()
-        print(rect_base_w.left())
-        print(rect_base_w.width())
         self.add_user_window = widgets.AddUserWindow()
         self.add_user_window.setWindowModality(
             QtCore.Qt.ApplicationModal)

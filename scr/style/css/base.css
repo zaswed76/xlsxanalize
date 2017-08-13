@@ -24,6 +24,65 @@ QLineEdit#new_user_pasw {
     border-right: 1px solid #398ebb;
 }
 
+QLineEdit#master {
+    font-family: Helvetica;
+    font-size: 10pt;
+    color: #2b2b2b;
+    min-width: 310px;
+    min-height: 32px;
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+}
+
+QLineEdit#master_2 {
+    font-family: Helvetica;
+    font-size: 10pt;
+    color: #2b2b2b;
+    min-width: 310px;
+    min-height: 32px;
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+}
+
+QCheckBox::indicator {
+     /*width: 20px;*/
+     /*height: 20px;*/
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+
+ }
+
+QCheckBox::indicator::checked  {
+     /*width: 20px;*/
+     /*height: 20px;*/
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+    background-color: #3a8fbb;
+
+ }
+
+QCheckBox {
+    font-family: Helvetica;
+    font-size: 8pt;
+    color: #2b2b2b;
+}
+
+
+/*QCheckBox {*/
+    /*border-bottom: 1px solid #398ebb;*/
+    /*border-top: 1px solid #398ebb;*/
+    /*border-left: 1px solid #398ebb;*/
+    /*border-right: 1px solid #398ebb;*/
+/*}*/
+
 Users  {
     border-bottom: none;
     border-top: none;
