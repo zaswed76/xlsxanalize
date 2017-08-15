@@ -19,6 +19,7 @@ actions_names = ["undo.png", "redo.png", "attach_file",
                  "SPACER", "send2.png", "show_setting_wind.png"]
 ui_dir = "../gui/ui"
 config_path = "../etc/config.yaml"
+pwd_path = "../etc/pwd.pkl"
 
 xlsx_data_list = ['add_income_mess', 'admin_income',
                   'all_expenses',
@@ -88,13 +89,25 @@ class MainEditor(widgets.MainWidget):
 
     def add_user(self):
         rect_base_w = self.geometry()
-        pwd_us = pwd.Pwd()
-        self.add_user_window = user_settings.AddUserWindow(pwd_us)
+        self.add_user_window = user_settings.AddUserWindow()
+        self.add_user_window.save_user_btn.clicked.connect(
+            self.save_user)
         self.add_user_window.setWindowModality(
             QtCore.Qt.ApplicationModal)
         self.add_user_window.move(rect_base_w.left(), rect_base_w.top())
         self.add_user_window.setMinimumWidth(rect_base_w.width()-8)
         self.add_user_window.show()
+
+    def save_user(self):
+        pwd_us = pwd.Pwd()
+        valid = self.add_user_window.all_valid_flags()
+        if valid:
+            mail = self.add_user_window.user_line.text()
+            password = self.add_user_window.user_pasw.text()
+            master = self.add_user_window.master.text()
+            encode_data = pwd_us.encrypt(password, master)
+            pwd_us.save(mail, pwd_path, encode_data)
+            print("сохранено")
 
 
     def get_message(self, file_path, bar_report_path):
