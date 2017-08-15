@@ -6,14 +6,14 @@ from functools import partial
 import yaml
 from PyQt5 import QtWidgets, uic, QtCore
 
-from scr.mail import mailpy
-from scr.gui import widgets
+from scr.mail import mailpy, pwd
+
 from scr import service
 from scr.pars import xlsx_parser
 from scr.text import xlsx_data, mess
 import sys
 from PyQt5 import QtWidgets
-from scr.gui import widgets
+from scr.gui import widgets, user_settings
 
 actions_names = ["undo.png", "redo.png", "attach_file",
                  "SPACER", "send2.png", "show_setting_wind.png"]
@@ -72,11 +72,24 @@ class MainEditor(widgets.MainWidget):
         self.usr_profile.add_user_btn.clicked.connect(
             self.add_user)
 
+        self.usr_profile.del_user_btn.clicked.connect(
+            self.del_user)
+
+        self.usr_profile.del_user_btn.clicked.connect(
+            self.del_user)
+
         self.attach_objects = {}
+
+    def save_new_user(self):
+        print("сохранить пользователя и закрыть")
+
+    def del_user(self):
+        print("del_user")
 
     def add_user(self):
         rect_base_w = self.geometry()
-        self.add_user_window = widgets.AddUserWindow()
+        pwd_us = pwd.Pwd()
+        self.add_user_window = user_settings.AddUserWindow(pwd_us)
         self.add_user_window.setWindowModality(
             QtCore.Qt.ApplicationModal)
         self.add_user_window.move(rect_base_w.left(), rect_base_w.top())

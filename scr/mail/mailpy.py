@@ -6,6 +6,19 @@ from email.mime.multipart import MIMEMultipart
 from email.header import Header
 import email
 import os
+import re
+
+ADDRESS_VERIFY_PAT = re.compile(
+    """^[_a-z0-9-]+
+           (\.[_a-z0-9-]+)*
+           @
+           [a-z0-9-]+
+           (\.[a-z0-9-]+)*
+           (\.[a-z]{2,4})$
+       """, re.VERBOSE)
+
+def address_verify(addr):
+    return re.match(ADDRESS_VERIFY_PAT, addr)
 
 
 def run_mail(mail_from, addr_list, mail_subj, mail_text, pasw,

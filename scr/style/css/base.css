@@ -209,3 +209,10 @@ AddUserBtn#adduser {
     border-left: none;
     border-right: none; }
 
+AddUserBtn#del_user_btn {
+    border-bottom: none;
+    border-top: none;
+    border-left: 1px solid #3a8fbb;
+    border-right: none;
+}
+
