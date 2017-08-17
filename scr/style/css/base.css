@@ -1,4 +1,11 @@
 
+QPushButton#add_recipient_btn {
+    border-bottom: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
 NewRecipientLine {
     background-color: #e5e5e5;
     font-family: Helvetica;
@@ -11,10 +18,15 @@ NewRecipientLine {
 }
 
 RecipientLabel {
-    background-color: #3ae534;
+    background-color: #e3e3e3;
     font-family: Helvetica;
     font-size: 10pt;
     color: #2b2b2b;
+    border-bottom: 1px solid #398ebb;
+    border-top: 1px solid #398ebb;
+    border-left: 1px solid #398ebb;
+    border-right: 1px solid #398ebb;
+    border-radius : 4px ;
 }
 
 Recipients {

@@ -47,7 +47,9 @@ class MainEditor(widgets.MainWidget):
 
         self.usr_profile = widgets.UserProfile(users)
         self.recipients = recipients.Recipients(self)
+
         self.theme_editor = theme_editor
+        self.theme_editor.setMinimumHeight(60)
         self.editor = editor
         self.attach_widget = widgets.AttachWidget()
 
@@ -57,9 +59,9 @@ class MainEditor(widgets.MainWidget):
         self.init_tool_bar(self.tool)
 
         self.center_box.addWidget(self.usr_profile, stretch=0)
-        self.center_box.addWidget(self.recipients, stretch=2)
-        self.center_box.addWidget(self.theme_editor, stretch=20)
-        self.center_box.addWidget(self.editor, stretch=20)
+        self.center_box.addWidget(self.recipients, stretch=0)
+        self.center_box.addWidget(self.theme_editor, stretch=4)
+        self.center_box.addWidget(self.editor, stretch=21)
         self.center_box.addWidget(self.attach_widget, stretch=1)
 
         self.set_widg = uic.loadUi(
