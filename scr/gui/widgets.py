@@ -12,7 +12,7 @@ from PyQt5.QtCore import QFile
 icon_dir = '../resource/icons'
 
 _box_margin = (0, 0, 0, 0)
-_box_spacing = 10
+_box_spacing = 0
 
 
 class Box(QtWidgets.QBoxLayout):
@@ -55,15 +55,16 @@ class Users(QtWidgets.QComboBox):
 
 
 class UserProfile(QtWidgets.QFrame):
-    def __init__(self, users: dict):
+    def __init__(self, users: list):
         super().__init__()
-        self.icon_size = QtCore.QSize(23, 23)
+
+        self.icon_size = QtCore.QSize(20, 20)
         self.box = QtWidgets.QHBoxLayout(self)
         self.box.setContentsMargins(0, 0, 0, 0)
         self.box.setSpacing(0)
         self.users = Users()
         self.box.addWidget(self.users, stretch=1)
-        self.users.addItems(users.keys())
+        self.users.addItems(users)
 
         self.add_user_btn = AddUserBtn()
         self.add_user_btn.setObjectName("adduser")
@@ -80,10 +81,15 @@ class UserProfile(QtWidgets.QFrame):
         self.box.addWidget(self.add_user_btn)
         self.box.addWidget(self.del_user_btn)
 
+    @property
+    def current_user(self):
+        return self.users.currentText()
 
-class Recipients(QtWidgets.QTextEdit):
-    def __init__(self):
-        super().__init__()
+    def del_current_user(self):
+        self.users.removeItem(self.users.currentIndex())
+
+    def add_user(self, user):
+        self.users.addItem(user)
 
 
 class AddressLabel(QtWidgets.QLabel):

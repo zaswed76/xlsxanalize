@@ -13,7 +13,7 @@ from scr.pars import xlsx_parser
 from scr.text import xlsx_data, mess
 import sys
 from PyQt5 import QtWidgets
-from scr.gui import widgets, user_settings
+from scr.gui import widgets, user_settings, recipients
 
 actions_names = ["undo.png", "redo.png", "attach_file",
                  "SPACER", "send2.png", "show_setting_wind.png"]
@@ -39,7 +39,14 @@ class MainEditor(widgets.MainWidget):
             self.cfg = dict()
             self.cfg_copy = self.cfg.copy()
         self.resize(450, 600)
-        self.usr_profile = widgets.UserProfile(self.cfg_copy["users"])
+        self.data_pwd = pwd.Pwd.load(pwd_path)
+        if self.data_pwd is None:
+            users = []
+        else:
+            users = list(self.data_pwd.keys())
+
+        self.usr_profile = widgets.UserProfile(users)
+        self.recipients = recipients.Recipients(self)
         self.theme_editor = theme_editor
         self.editor = editor
         self.attach_widget = widgets.AttachWidget()
@@ -49,10 +56,11 @@ class MainEditor(widgets.MainWidget):
                                  self.tool_actions(actions_names))
         self.init_tool_bar(self.tool)
 
-        self.center_box.addWidget(self.usr_profile)
-        self.center_box.addWidget(self.theme_editor)
-        self.center_box.addWidget(self.editor)
-        self.center_box.addWidget(self.attach_widget)
+        self.center_box.addWidget(self.usr_profile, stretch=0)
+        self.center_box.addWidget(self.recipients, stretch=2)
+        self.center_box.addWidget(self.theme_editor, stretch=20)
+        self.center_box.addWidget(self.editor, stretch=20)
+        self.center_box.addWidget(self.attach_widget, stretch=1)
 
         self.set_widg = uic.loadUi(
             os.path.join(ui_dir, "setting.ui"))
@@ -76,16 +84,17 @@ class MainEditor(widgets.MainWidget):
         self.usr_profile.del_user_btn.clicked.connect(
             self.del_user)
 
-        self.usr_profile.del_user_btn.clicked.connect(
-            self.del_user)
-
         self.attach_objects = {}
 
-    def save_new_user(self):
-        print("сохранить пользователя и закрыть")
+
 
     def del_user(self):
-        print("del_user")
+        current_user = self.usr_profile.current_user
+        if current_user:
+            del(self.data_pwd[self.usr_profile.current_user])
+            self.usr_profile.del_current_user()
+            pwd.Pwd.update(pwd_path, self.data_pwd)
+            print("del_user")
 
     def add_user(self):
         rect_base_w = self.geometry()
@@ -107,6 +116,9 @@ class MainEditor(widgets.MainWidget):
             master = self.add_user_window.master.text()
             encode_data = pwd_us.encrypt(password, master)
             pwd_us.save(mail, pwd_path, encode_data)
+            self.data_pwd.update({mail: encode_data})
+            self.usr_profile.add_user(mail)
+            self.add_user_window.close()
             print("сохранено")
 
 
@@ -134,7 +146,7 @@ class MainEditor(widgets.MainWidget):
             self.editor.setHtml(self.ms_text)
             return
         bar_report_path = service.report(self.cfg["reports_dir"])
-        if not os.path.isfile(bar_report_path):
+        if not bar_report_path:
             theme = "отчёт отсутствует"
             theme_editor.setText(theme)
             return
@@ -154,7 +166,20 @@ class MainEditor(widgets.MainWidget):
         # theme = self.theme_editor.toPlainText()
         # ms_text = self.editor.toHtml()
         # mailpy.run_mail(mymail, [tomail], theme, ms_text, psw)
-        print("send")
+        user = self.usr_profile.current_user
+        print("current", user)
+        user_pwd_data = self.data_pwd[user]
+
+
+        dialog = QtWidgets.QInputDialog(self)
+
+        result = dialog.exec()
+        if result == QtWidgets.QDialog.Accepted:
+            master = dialog.textValue()
+            decode_pwd_data = pwd.Pwd.decrypt(user_pwd_data, master)
+        else:
+            return
+        print(decode_pwd_data)
 
     def add_attach(self, file):
         self.attach_objects[file] = self.attach_widget.add_file(file)
@@ -210,11 +235,13 @@ class MainEditor(widgets.MainWidget):
         print("redo")
 
     def show_setting_wind(self):
+        print(555)
         self.setting_set_conf()
         print(555)
         self.set_widg.show()
 
     def setting_set_conf(self):
+
 
         self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
 

@@ -33,10 +33,17 @@ class Pwd:
     @staticmethod
     def save(user, path, data):
         _data = Pwd.load(path)
-        ud = {user: data}
-        _data.update(ud)
+        if _data is not None:
+            _data.update({user: data})
+        else:
+            _data = {user: data}
         with open(path, 'wb') as f:
             pickle.dump(_data, f)
+
+    @staticmethod
+    def update(path, users_data):
+        with open(path, 'wb') as f:
+            pickle.dump(users_data, f)
 
     @staticmethod
     def load(path):

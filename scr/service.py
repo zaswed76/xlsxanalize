@@ -5,13 +5,12 @@ from scr.pars import data_pars
 
 
 def report(directory):
-
+    os.path.isdir(directory)
     file_lst = []
     dp_file_lst = []
     for root, dirs, files in os.walk(directory):
         for name in files:
             dp = data_pars.Date_Pars()
-
             fullname = os.path.join(root, name)
             dp.data_pars(fullname)
             dp_file_lst.append(dp)
@@ -24,9 +23,9 @@ def report(directory):
     try:
         s = max(dp_file_lst)
     except:
-        s = None
-
-    return s.line
+        return None
+    else:
+        return s.line
 
 import os
 import shutil
