@@ -95,7 +95,7 @@ class Time:
 
 
 class Date_Pars:
-    PAT_DATA = re.compile("\d{2}[-./,]\d{2}[-./,]\d{2,4}")
+    PAT_DATA = re.compile("\d{2}[-./,]\d{2}[-./,]\d{0,4}")
     PAT_TIME = re.compile("[\[(]\d{1,2}[)\]]|[\[(]\w+[)\]]")
     PAT_TIME_WORD = re.compile("\d{1,2}|\w+")
     DATA_DEL_PAT = "[-./,]"
@@ -107,6 +107,7 @@ class Date_Pars:
         self.begin = None
         self.end = None
         self.time = None
+        self._line = None
         self._dates_valid_flag = True
 
     def __eq__(self, other):
@@ -117,6 +118,10 @@ class Date_Pars:
 
     @property
     def dates_valid_flag(self):
+        """
+        проверяет соответствует ли части даты друг другу и времени
+        :return: bool
+        """
         d = self.end - self.begin
         if (d == datetime.timedelta(days=1) and self.time.num == 24):
             r1 = True
@@ -124,9 +129,6 @@ class Date_Pars:
             r1 = True
         else:
             r1 = False
-
-
-
         r2 = self.end.date == datetime.datetime.now().date()
         return all([r1, r2])
 
@@ -134,43 +136,57 @@ class Date_Pars:
     def del_space(line):
         return "".join(line.split())
 
-    def data_pars(self, line):
-        self.line = line
+
+    def regeexp_data(self, line):
+        begin, end = None
         line = Date_Pars.del_space(line)
         res_data = re.findall(Date_Pars.PAT_DATA, line)
-
         if not res_data:
-            return dict()
+            return []
         else:
             res_data = [re.sub(Date_Pars.DATA_DEL_PAT, ".", d) for d
                         in res_data]
+        if res_data:
+            begin = Date(res_data[0])
+        if len(res_data) == 2:
+            end = Date(res_data[1])
+        return begin, end
 
-            self.begin, self.end = (
-            Date(res_data[0]), Date(res_data[1]))
-            res_time = re.findall(Date_Pars.PAT_TIME, line)
-            if res_time:
-                time = \
-                re.findall(Date_Pars.PAT_TIME_WORD, res_time[0])[0]
-                self.time = Time(time)
-            else:
-                self.time = Time(None)
+    def data_pars(self, line):
+        self._line = line
+        res_data = self.regeexp_data(self._line)
+
+
+        res_time = re.findall(Date_Pars.PAT_TIME, line)
+        if res_time:
+            time = \
+            re.findall(Date_Pars.PAT_TIME_WORD, res_time[0])[0]
+            self.time = Time(time)
+        else:
+            self.time = Time(None)
+
+    @property
+    def source_line(self):
+        return self._line
 
     def __str__(self):
         return str((self.begin, self.end, self.time))
 
     def __gt__(self, other):
+        print(self.end, 555)
         r =  self.end > other.end
-
+        print(r, "rrrrrr")
         return r
 
 
 if __name__ == '__main__':
-    s = "25.07.2017-26.07.17  (24)"
+    # s = "12.07.18"
+    s = "17.08-18.08.17  (24)"
 
     pd = Date_Pars()
     pd.data_pars(s)
 
-    print(pd.dates_valid_flag)
+    print(pd)
 
 
 

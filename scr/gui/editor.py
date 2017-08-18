@@ -209,11 +209,16 @@ class MainEditor(widgets.MainWidget):
 
     def report_choose_dir(self):
         directory = self.choose_dir()
+
         if directory:
             self.cfg_copy["reports_dir"] = directory
+
             self.set_widg.report_dir_btn.setText(directory)
-            self.set_widg.report_file.setText(
-                service.report(directory))
+
+            text = service.report(directory)
+
+            self.set_widg.report_file.setText(text)
+
 
     def calc_choos_file(self):
         f = self.showDialog()
@@ -243,13 +248,10 @@ class MainEditor(widgets.MainWidget):
         self.set_widg.show()
 
     def setting_set_conf(self):
-
-
         self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
-
         self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
-        self.set_widg.report_file.setText(
-            service.report(self.cfg["reports_dir"]))
+        text = service.report(self.cfg["reports_dir"])
+        self.set_widg.report_file.setText(text)
 
     def save_conf(self, cfg):
         with open(config_path, 'w') as f:
