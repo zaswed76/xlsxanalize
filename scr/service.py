@@ -5,6 +5,9 @@ from scr.pars import data_pars
 
 
 def report(directory):
+    print(directory, 333)
+
+
     file_lst = []
     dp_file_lst = []
     for root, dirs, files in os.walk(directory):
@@ -17,15 +20,20 @@ def report(directory):
 
             dp_file_lst.append(dp)
             file_lst.append((os.path.getctime(fullname), fullname))
-    print(dp_file_lst, "777")
+
     try:
+
         s = max(dp_file_lst)
+        print(s, "\n", directory, 1111)
+
     except:
-        print("!!!!!!!")
+
         return None
     else:
         l = s.source_line
-        print(l, 777)
+        # print(l)
+        # print(directory)
+        # print("--------------")
         return l
 
 import os

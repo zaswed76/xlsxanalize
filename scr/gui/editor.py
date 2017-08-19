@@ -210,13 +210,13 @@ class MainEditor(widgets.MainWidget):
     def report_choose_dir(self):
         directory = self.choose_dir()
 
+
         if directory:
             self.cfg_copy["reports_dir"] = directory
 
             self.set_widg.report_dir_btn.setText(directory)
 
             text = service.report(directory)
-
             self.set_widg.report_file.setText(text)
 
 
@@ -242,9 +242,7 @@ class MainEditor(widgets.MainWidget):
         print("redo")
 
     def show_setting_wind(self):
-        print(555)
         self.setting_set_conf()
-        print(555)
         self.set_widg.show()
 
     def setting_set_conf(self):

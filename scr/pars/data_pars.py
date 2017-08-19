@@ -93,6 +93,30 @@ class Time:
     def __eq__(self, other):
         return self.num == other.num
 
+def re_data(line):
+    pat_data = re.compile("""
+                     (\d{2}[./,]\d{2})
+                     ([./,]?)(\d{0,4})
+                     ([-./,])
+                     (\d{2}[./,]\d{2})
+                     ([./,]?)(\d{0,4})
+                     """, re.VERBOSE)
+    res = re.search(pat_data, line)
+    if res :
+        dates = res.group(1, 5)
+        years = res.group(3, 7)
+        if years[0] and years[1]:
+            y = (int(x) for x in years)
+        elif years[0] or years[1]:
+            _y = int([x for x in years if x][0])
+            y = (_y, _y)
+        else:
+            _y = datetime.date.today().year
+            y = (_y, _y)
+        r = tuple(["{}.{}".format(d, y) for d, y in zip(dates, y)])
+        return r
+    else:
+        return (None, None)
 
 class Date_Pars:
     PAT_DATA = re.compile("\d{2}[-./,]\d{2}[-./,]\d{0,4}")
@@ -138,7 +162,7 @@ class Date_Pars:
 
 
     def regeexp_data(self, line):
-        begin, end = None
+        begin, end = None, None
         line = Date_Pars.del_space(line)
         res_data = re.findall(Date_Pars.PAT_DATA, line)
         if not res_data:
@@ -152,11 +176,13 @@ class Date_Pars:
             end = Date(res_data[1])
         return begin, end
 
+
+
     def data_pars(self, line):
-        self._line = line
-        res_data = self.regeexp_data(self._line)
-
-
+        self._source_line = line
+        _begin, _end = re_data(line)
+        self.begin = Date(_begin)
+        self.end = Date(_end)
         res_time = re.findall(Date_Pars.PAT_TIME, line)
         if res_time:
             time = \
@@ -167,15 +193,13 @@ class Date_Pars:
 
     @property
     def source_line(self):
-        return self._line
+        return self._source_line
 
     def __str__(self):
         return str((self.begin, self.end, self.time))
 
     def __gt__(self, other):
-        print(self.end, 555)
         r =  self.end > other.end
-        print(r, "rrrrrr")
         return r
 
 
