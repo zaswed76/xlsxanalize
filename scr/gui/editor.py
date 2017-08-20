@@ -142,19 +142,21 @@ class MainEditor(widgets.MainWidget):
         return ms_text, theme, path, parser.error_theme_path
 
     def show_text(self):
-        file_path = self.cfg["calc_file"]
-        if not os.path.isfile(file_path):
+        calc_file_path = self.cfg["calc_file"]
+        if not os.path.isfile(calc_file_path):
             self.ms_text = "калькулятор бара отсутствует"
             self.editor.setHtml(self.ms_text)
             return
+
         bar_report_path = service.report(self.cfg["reports_dir"])
+        print()
         if not bar_report_path:
             theme = "отчёт отсутствует"
             theme_editor.setText(theme)
             return
 
         self.ms_text, self.theme, path, error_theme_path = self.get_message(
-            file_path, bar_report_path)
+            calc_file_path, bar_report_path)
 
         self.theme_editor.setHtml(self.theme)
         self.theme_editor.add_error_mess(error_theme_path)

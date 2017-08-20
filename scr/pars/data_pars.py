@@ -6,6 +6,7 @@ class Date:
     def __init__(self, date=None):
         self._valid = None
         self.text = date
+        print(date)
         try:
             self.date = datetime.datetime.strptime(date,
                                                    "%d.%m.%Y").date()
@@ -179,6 +180,7 @@ class Date_Pars:
 
 
     def data_pars(self, line):
+        print(line)
         self._source_line = line
         _begin, _end = re_data(line)
         self.begin = Date(_begin)

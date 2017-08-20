@@ -52,3 +52,5 @@ def re_data(line):
 
 line = "17.08.17-17.08.17"
 print(re_data(line))
+import webbrowser
+webbrowser.open('http://python.org')

@@ -5,9 +5,6 @@ from scr.pars import data_pars
 
 
 def report(directory):
-    print(directory, 333)
-
-
     file_lst = []
     dp_file_lst = []
     for root, dirs, files in os.walk(directory):
@@ -24,7 +21,7 @@ def report(directory):
     try:
 
         s = max(dp_file_lst)
-        print(s, "\n", directory, 1111)
+
 
     except:
 
