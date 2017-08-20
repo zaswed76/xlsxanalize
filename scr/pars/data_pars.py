@@ -6,7 +6,7 @@ class Date:
     def __init__(self, date=None):
         self._valid = None
         self.text = date
-        print(date)
+
         try:
             self.date = datetime.datetime.strptime(date,
                                                    "%d.%m.%Y").date()
@@ -102,6 +102,7 @@ def re_data(line):
                      (\d{2}[./,]\d{2})
                      ([./,]?)(\d{0,4})
                      """, re.VERBOSE)
+
     res = re.search(pat_data, line)
     if res :
         dates = res.group(1, 5)
@@ -129,6 +130,7 @@ class Date_Pars:
     time_valid_24 = ["сутки", 24]
 
     def __init__(self):
+        self.counter = 0
         self.begin = None
         self.end = None
         self.time = None
@@ -180,11 +182,18 @@ class Date_Pars:
 
 
     def data_pars(self, line):
-        print(line)
+        if not isinstance(line, str):
+            return
         self._source_line = line
+
         _begin, _end = re_data(line)
-        self.begin = Date(_begin)
-        self.end = Date(_end)
+
+        if _begin is None or _end is None:
+            pass
+        else:
+            self.begin = Date(_begin)
+            self.end = Date(_end)
+
         res_time = re.findall(Date_Pars.PAT_TIME, line)
         if res_time:
             time = \
@@ -201,8 +210,9 @@ class Date_Pars:
         return str((self.begin, self.end, self.time))
 
     def __gt__(self, other):
-        r =  self.end > other.end
-        return r
+        if isinstance(self.end, Date) and isinstance(other.end, Date):
+           r =  self.end > other.end
+           return r
 
 
 if __name__ == '__main__':

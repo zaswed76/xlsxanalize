@@ -3,6 +3,7 @@ import sys
 
 from functools import partial
 
+import xlrd
 import yaml
 from PyQt5 import QtWidgets, uic, QtCore
 
@@ -126,30 +127,37 @@ class MainEditor(widgets.MainWidget):
 
     def get_message(self, file_path, bar_report_path):
 
-        parser = xlsx_parser.Parser(file_path, bar_report_path)
 
-        xlsxData = xlsx_data.XlxsDada(parser)
+        try:
+            parser = xlsx_parser.Parser(file_path, bar_report_path)
+        except xlrd.biffh.XLRDError:
+            return ("","","","")
+        else:
 
-        ms = mess.Message("../text",
-                          "mess.html",
-                          "theme.html",
-                          xlsxData)
-        ms.register_xlsx_data(*xlsx_data_list)
-        ms.create_theme_data()
-        ms_text = ms.text()
-        theme = ms.theme()
-        path = parser.report_file
-        return ms_text, theme, path, parser.error_theme_path
+             xlsxData = xlsx_data.XlxsDada(parser)
+
+             ms = mess.Message("../text",
+                               "mess.html",
+                               "theme.html",
+                               xlsxData)
+             ms.register_xlsx_data(*xlsx_data_list)
+             ms.create_theme_data()
+             ms_text = ms.text()
+             theme = ms.theme()
+             path = parser.report_file
+             return ms_text, theme, path, parser.error_theme_path
 
     def show_text(self):
+
         calc_file_path = self.cfg["calc_file"]
         if not os.path.isfile(calc_file_path):
             self.ms_text = "калькулятор бара отсутствует"
             self.editor.setHtml(self.ms_text)
             return
 
+
         bar_report_path = service.report(self.cfg["reports_dir"])
-        print()
+
         if not bar_report_path:
             theme = "отчёт отсутствует"
             theme_editor.setText(theme)
@@ -171,7 +179,7 @@ class MainEditor(widgets.MainWidget):
         # ms_text = self.editor.toHtml()
         # mailpy.run_mail(mymail, [tomail], theme, ms_text, psw)
         user = self.usr_profile.current_user
-        print("current", user)
+
         user_pwd_data = self.data_pwd[user]
 
 
@@ -198,9 +206,11 @@ class MainEditor(widgets.MainWidget):
         self.set_widg.close()
 
     def ok_set(self):
+
         self.cfg.update(self.cfg_copy)
         self.save_conf(self.cfg)
         self.show_text()
+
         self.set_widg.close()
 
     def report_file(self):
@@ -214,11 +224,13 @@ class MainEditor(widgets.MainWidget):
 
 
         if directory:
+
             self.cfg_copy["reports_dir"] = directory
 
             self.set_widg.report_dir_btn.setText(directory)
 
             text = service.report(directory)
+
             self.set_widg.report_file.setText(text)
 
 
@@ -250,8 +262,8 @@ class MainEditor(widgets.MainWidget):
     def setting_set_conf(self):
         self.set_widg.calc_file_btn.setText(self.cfg["calc_file"])
         self.set_widg.report_dir_btn.setText(self.cfg["reports_dir"])
-        text = service.report(self.cfg["reports_dir"])
-        self.set_widg.report_file.setText(text)
+        # text = service.report(self.cfg["reports_dir"])
+        # self.set_widg.report_file.setText(text)
 
     def save_conf(self, cfg):
         with open(config_path, 'w') as f:

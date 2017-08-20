@@ -10,13 +10,16 @@ def report(directory):
     for root, dirs, files in os.walk(directory):
 
         for name in files:
+
             dp = data_pars.Date_Pars()
             fullname = os.path.join(root, name)
+            print(fullname)
+            if os.path.splitext(name)[1] == ".xlsx":
+                dp.data_pars(fullname)
 
-            dp.data_pars(fullname)
 
-            dp_file_lst.append(dp)
-            file_lst.append((os.path.getctime(fullname), fullname))
+                dp_file_lst.append(dp)
+                file_lst.append((os.path.getctime(fullname), fullname))
 
     try:
 
@@ -25,12 +28,11 @@ def report(directory):
 
     except:
 
-        return None
+        pass
     else:
         l = s.source_line
-        # print(l)
-        # print(directory)
-        # print("--------------")
+
+
         return l
 
 import os
