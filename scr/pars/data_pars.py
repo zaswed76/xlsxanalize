@@ -182,9 +182,11 @@ class Date_Pars:
 
 
     def data_pars(self, line):
+
+        self._source_line = line
         if not isinstance(line, str):
             return
-        self._source_line = line
+
 
         _begin, _end = re_data(line)
 
